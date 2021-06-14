@@ -87,8 +87,9 @@ ENV \
   FUSEKI_BASE="${FUSEKI_BASE}" \
   OTEL_JAR="${OTEL_JAR}" \
   GEOSPARQL_JAR="${GEOSPARQL_JAR}" \
-  OTEL_TRACES_EXPORTER=none \
-  OTEL_METRICS_EXPORTER=none
+  OTEL_TRACES_EXPORTER="none" \
+  OTEL_METRICS_EXPORTER="none" \
+  ENABLE_DEFAULT_GEOMETRY="true"
 
 # run as "fuseki" (explicit UID so "run as non-root" policies can be enforced)
 USER 1000
