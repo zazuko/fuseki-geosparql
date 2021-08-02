@@ -7,7 +7,7 @@ This Docker image is configured to have union graph enabled on tdb2 datasets.
 You can pull the Docker image using:
 
 ```sh
-docker pull docker.io/zazuko/fuseki-geosparql
+docker pull ghcr.io/zazuko/fuseki-geosparql
 ```
 
 It is listening on the 3030 port.
