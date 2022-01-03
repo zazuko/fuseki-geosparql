@@ -1,6 +1,6 @@
 ARG OPENJDK_VERSION="16"
 ARG ALPINE_VERSION="3.13"
-ARG JENA_VERSION="4.1.0"
+ARG JENA_VERSION="4.3.2"
 ARG OTEL_VERSION="1.2.0"
 
 ARG FUSEKI_HOME="/opt/fuseki"
@@ -34,8 +34,10 @@ WORKDIR /build/jena/jena-fuseki2/jena-fuseki-geosparql
 COPY uniongraph.diff .
 RUN patch -p3 < uniongraph.diff
 
+RUN apk add --no-cache binutils
+
 RUN mvn test
-RUN mvn package
+RUN mvn package -Dmaven.javadoc.skip=true
 RUN mkdir -p "${FUSEKI_HOME}"
 RUN mv "target/${GEOSPARQL_JAR}" "${FUSEKI_HOME}/"
 
