@@ -44,7 +44,6 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
           platforms: |
-            linux/386
             linux/amd64
             linux/arm/v6
             linux/arm/v7
