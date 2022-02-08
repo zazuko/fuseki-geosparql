@@ -27,7 +27,6 @@ RUN apk add --no-cache \
   binutils \
   maven \
   patch \
-  binutils \
   openjdk16
 
 WORKDIR /build
@@ -50,6 +49,16 @@ WORKDIR "${FUSEKI_HOME}"
 # add opentelemetry support
 RUN wget "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_VERSION}/${OTEL_JAR}"
 
+FROM "docker.io/library/alpine:${ALPINE_VERSION}" as deps
+ARG FUSEKI_HOME
+ARG OTEL_JAR
+ARG GEOSPARQL_JAR
+ARG JAVA_MINIMAL
+ARG JDEPS_EXTRA
+
+WORKDIR "${FUSEKI_HOME}"
+COPY --from=builder "${FUSEKI_HOME}" "${FUSEKI_HOME}"
+RUN apk add --no-cache openjdk16 binutils
 
 RUN \
   JDEPS="$(jdeps --multi-release base --print-module-deps --ignore-missing-deps ${OTEL_JAR} ${GEOSPARQL_JAR})" && \
@@ -72,8 +81,8 @@ ARG OTEL_JAR
 ARG GEOSPARQL_JAR
 ARG JAVA_MINIMAL
 
-COPY --from=builder "${JAVA_MINIMAL}" "${JAVA_MINIMAL}"
-COPY --from=builder "${FUSEKI_HOME}" "${FUSEKI_HOME}"
+COPY --from=deps "${JAVA_MINIMAL}" "${JAVA_MINIMAL}"
+COPY --from=deps "${FUSEKI_HOME}" "${FUSEKI_HOME}"
 
 # Run as this user
 # -H : no home directorry
