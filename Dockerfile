@@ -7,6 +7,7 @@ ARG FUSEKI_BASE="/fuseki"
 ARG OTEL_JAR="opentelemetry-javaagent-all.jar"
 ARG GEOSPARQL_JAR="jena-fuseki-geosparql-${JENA_VERSION}.jar"
 ARG JAVA_MINIMAL="/opt/java-minimal"
+ARG JDEPS_EXTRA="jdk.crypto.cryptoki,jdk.crypto.ec"
 
 
 FROM "docker.io/library/alpine:${ALPINE_VERSION}" AS builder
@@ -20,8 +21,14 @@ ARG FUSEKI_BASE
 ARG OTEL_JAR
 ARG GEOSPARQL_JAR
 ARG JAVA_MINIMAL
+ARG JDEPS_EXTRA
 
-RUN apk add --no-cache binutils maven patch
+RUN apk add --no-cache \
+  binutils \
+  maven \
+  patch \
+  binutils \
+  openjdk16
 
 WORKDIR /build
 
@@ -33,8 +40,6 @@ WORKDIR /build/jena/jena-fuseki2/jena-fuseki-geosparql
 COPY uniongraph.diff .
 RUN patch -p3 < uniongraph.diff
 
-RUN apk add --no-cache binutils openjdk16
-
 RUN mvn test
 RUN mvn package -Dmaven.javadoc.skip=true
 RUN mkdir -p "${FUSEKI_HOME}"
@@ -45,7 +50,7 @@ WORKDIR "${FUSEKI_HOME}"
 # add opentelemetry support
 RUN wget "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_VERSION}/${OTEL_JAR}"
 
-ARG JDEPS_EXTRA="jdk.crypto.cryptoki,jdk.crypto.ec"
+
 RUN \
   JDEPS="$(jdeps --multi-release base --print-module-deps --ignore-missing-deps ${OTEL_JAR} ${GEOSPARQL_JAR})" && \
   jlink \
