@@ -1,6 +1,5 @@
-ARG OPENJDK_VERSION="16"
-ARG ALPINE_VERSION="3.13"
-ARG JENA_VERSION="4.3.2"
+ARG ALPINE_VERSION="3.15"
+ARG JENA_VERSION="4.4.0"
 ARG OTEL_VERSION="1.2.0"
 
 ARG FUSEKI_HOME="/opt/fuseki"
@@ -10,7 +9,7 @@ ARG GEOSPARQL_JAR="jena-fuseki-geosparql-${JENA_VERSION}.jar"
 ARG JAVA_MINIMAL="/opt/java-minimal"
 
 
-FROM "openjdk:${OPENJDK_VERSION}-alpine${ALPINE_VERSION}" AS builder
+FROM "docker.io/library/alpine:${ALPINE_VERSION}" AS builder
 
 ARG ALPINE_VERSION
 ARG JENA_VERSION
@@ -34,7 +33,7 @@ WORKDIR /build/jena/jena-fuseki2/jena-fuseki-geosparql
 COPY uniongraph.diff .
 RUN patch -p3 < uniongraph.diff
 
-RUN apk add --no-cache binutils
+RUN apk add --no-cache binutils openjdk16
 
 RUN mvn test
 RUN mvn package -Dmaven.javadoc.skip=true
@@ -55,7 +54,10 @@ RUN \
   --add-modules "${JDEPS},${JDEPS_EXTRA}"
 
 
-FROM "alpine:${ALPINE_VERSION}"
+FROM "docker.io/library/alpine:${ALPINE_VERSION}"
+
+# install some required dependencies
+RUN apk add --no-cache tini
 
 ARG JENA_VERSION
 
@@ -82,9 +84,9 @@ COPY entrypoint.sh log4j2.properties ./
 
 # Default environment variables
 ENV \
-  JAVA_HOME=${JAVA_MINIMAL} \
+  JAVA_HOME="${JAVA_MINIMAL}" \
   JAVA_OPTIONS="-Xmx2048m -Xms2048m" \
-  JENA_VERSION=${JENA_VERSION} \
+  JENA_VERSION="${JENA_VERSION}" \
   FUSEKI_HOME="${FUSEKI_HOME}" \
   FUSEKI_BASE="${FUSEKI_BASE}" \
   OTEL_JAR="${OTEL_JAR}" \
@@ -99,5 +101,5 @@ WORKDIR "${FUSEKI_BASE}"
 EXPOSE 3030
 
 # keep this path in sync with $FUSEKI_HOME since ENTRYPOINT does not do buildarg expansion
-ENTRYPOINT [ "/opt/fuseki/entrypoint.sh" ]
+ENTRYPOINT [ "tini", "--", "/opt/fuseki/entrypoint.sh" ]
 CMD []
