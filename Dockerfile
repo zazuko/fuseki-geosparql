@@ -10,7 +10,7 @@ ARG JAVA_MINIMAL="/opt/java-minimal"
 ARG JDEPS_EXTRA="jdk.crypto.cryptoki,jdk.crypto.ec"
 
 
-FROM "docker.io/library/alpine:${ALPINE_VERSION}" AS builder
+FROM --platform=${BUILDPLATFORM} "docker.io/library/alpine:${ALPINE_VERSION}" AS builder
 
 ARG ALPINE_VERSION
 ARG JENA_VERSION
