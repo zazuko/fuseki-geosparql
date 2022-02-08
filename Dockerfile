@@ -1,10 +1,10 @@
 ARG ALPINE_VERSION="3.15"
 ARG JENA_VERSION="4.4.0"
-ARG OTEL_VERSION="1.2.0"
+ARG OTEL_VERSION="1.10.1"
 
 ARG FUSEKI_HOME="/opt/fuseki"
 ARG FUSEKI_BASE="/fuseki"
-ARG OTEL_JAR="opentelemetry-javaagent-all.jar"
+ARG OTEL_JAR="opentelemetry-javaagent.jar"
 ARG GEOSPARQL_JAR="jena-fuseki-geosparql-${JENA_VERSION}.jar"
 ARG JAVA_MINIMAL="/opt/java-minimal"
 ARG JDEPS_EXTRA="jdk.crypto.cryptoki,jdk.crypto.ec"
