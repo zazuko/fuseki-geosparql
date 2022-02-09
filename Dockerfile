@@ -111,7 +111,7 @@ RUN mkdir -p "${FUSEKI_BASE}/databases" \
   && chown -R fuseki "${FUSEKI_BASE}"
 
 WORKDIR "${FUSEKI_HOME}"
-COPY entrypoint.sh log4j2.properties ./
+COPY entrypoint.sh log4j2.properties shiro.ini ./
 
 # default environment variables
 ENV \
