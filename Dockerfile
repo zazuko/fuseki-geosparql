@@ -126,7 +126,6 @@ ENV \
   FUSEKI_BASE="${FUSEKI_BASE}" \
   OTEL_TRACES_EXPORTER="none" \
   OTEL_METRICS_EXPORTER="none" \
-  ENABLE_DEFAULT_GEOMETRY="true" \
   ADMIN_PASSWORD="admin"
 
 # run as "fuseki" (explicit UID so "run as non-root" policies can be enforced)
