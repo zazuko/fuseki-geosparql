@@ -40,6 +40,17 @@
 
 <#ds> rdf:type geosparql:geosparqlDataset ;
   geosparql:spatialIndexFile "ds/spatial.index";
+
+  # some GeoSPARQL settings
+  geosparql:inference            true ;
+  geosparql:queryRewrite         true ;
+  geosparql:indexEnabled         true ;
+  geosparql:applyDefaultGeometry false ;
+
+  # 3 item lists: [Geometry Literal, Geometry Transform, Query Rewrite]
+  geosparql:indexSizes           "-1,-1,-1" ;       # Default - unlimited.
+  geosparql:indexExpires         "5000,5000,5000" ; # Default - time in milliseconds.
+
   geosparql:dataset <#baseDataset> ;
   .
 
