@@ -34,7 +34,7 @@ RUN wget "https://github.com/apache/jena/archive/refs/tags/jena-${JENA_VERSION}.
   && unzip jena.zip && mv "jena-jena-${JENA_VERSION}" jena
 
 WORKDIR /build/jena
-COPY enable-geosparql.diff .
+COPY patches/enable-geosparql.diff .
 RUN patch -p1 < enable-geosparql.diff
 
 WORKDIR /build/jena/jena-fuseki2
