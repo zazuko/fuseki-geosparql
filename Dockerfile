@@ -1,7 +1,9 @@
+# manage tools versions
 ARG ALPINE_VERSION="3.15"
 ARG JENA_VERSION="4.4.0"
 ARG OTEL_VERSION="1.10.1"
 
+# configure some paths, names and args
 ARG FUSEKI_HOME="/opt/fuseki"
 ARG FUSEKI_BASE="/fuseki"
 ARG OTEL_JAR="opentelemetry-javaagent.jar"
@@ -10,35 +12,35 @@ ARG JAVA_MINIMAL="/opt/java-minimal"
 ARG JDEPS_EXTRA="jdk.crypto.cryptoki,jdk.crypto.ec"
 
 
+######################################################################
+# Build and fetch all jar files, only need to do it for one platform #
+######################################################################
 FROM --platform=${BUILDPLATFORM} "docker.io/library/alpine:${ALPINE_VERSION}" AS builder
-
 ARG ALPINE_VERSION
 ARG JENA_VERSION
 ARG OTEL_VERSION
-
 ARG FUSEKI_HOME
-ARG FUSEKI_BASE
 ARG OTEL_JAR
 ARG GEOSPARQL_JAR
-ARG JAVA_MINIMAL
-ARG JDEPS_EXTRA
 
+WORKDIR /build
+
+# install some dependencies
 RUN apk add --no-cache \
-  binutils \
   maven \
   patch \
   openjdk16
 
-WORKDIR /build
-
-# get source code for jena and build Fuseki GeoSPARQL
+# get source code for Apache Jena
 RUN wget "https://github.com/apache/jena/archive/refs/tags/jena-${JENA_VERSION}.zip" -O jena.zip \
   && unzip jena.zip && mv "jena-jena-${JENA_VERSION}" jena
 
+# patch Fuseki GeoSPARQL to enable uniongraph
 WORKDIR /build/jena/jena-fuseki2/jena-fuseki-geosparql
 COPY uniongraph.diff .
 RUN patch -p3 < uniongraph.diff
 
+# build Fuseki with GeoSPARQL support
 RUN mvn test
 RUN mvn package -Dmaven.javadoc.skip=true
 RUN mkdir -p "${FUSEKI_HOME}"
@@ -52,6 +54,10 @@ RUN wget "https://github.com/open-telemetry/opentelemetry-java-instrumentation/r
 # figure out JDEPS
 RUN jdeps --multi-release base --print-module-deps --ignore-missing-deps ${OTEL_JAR} ${GEOSPARQL_JAR} > /tmp/jdeps
 
+
+#############################################################
+# Generate all depedencies depending on the target platform #
+#############################################################
 FROM "docker.io/library/alpine:${ALPINE_VERSION}" as deps
 ARG FUSEKI_HOME
 ARG OTEL_JAR
@@ -72,13 +78,15 @@ RUN \
   --add-modules "$(cat /tmp/jdeps),${JDEPS_EXTRA}"
 
 
+############################
+# Build final Docker image #
+############################
 FROM "docker.io/library/alpine:${ALPINE_VERSION}"
 
 # install some required dependencies
 RUN apk add --no-cache tini
 
 ARG JENA_VERSION
-
 ARG FUSEKI_HOME
 ARG FUSEKI_BASE
 ARG OTEL_JAR
@@ -89,9 +97,9 @@ COPY --from=deps "${JAVA_MINIMAL}" "${JAVA_MINIMAL}"
 COPY --from=deps "${FUSEKI_HOME}" "${FUSEKI_HOME}"
 
 # Run as this user
-# -H : no home directorry
-# -D : no password
-# -u : explicit UID
+# -H: no home directorry
+# -D: no password
+# -u: explicit UID
 RUN adduser -H -D -u 1000 fuseki fuseki
 
 RUN mkdir -p "${FUSEKI_BASE}/databases" \
@@ -100,7 +108,7 @@ RUN mkdir -p "${FUSEKI_BASE}/databases" \
 WORKDIR "${FUSEKI_HOME}"
 COPY entrypoint.sh log4j2.properties ./
 
-# Default environment variables
+# default environment variables
 ENV \
   JAVA_HOME="${JAVA_MINIMAL}" \
   JAVA_OPTIONS="-Xmx2048m -Xms2048m" \
