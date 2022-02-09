@@ -41,3 +41,9 @@ All other routes are publicly available.
 If you want to change this behavior, you will need to change the `config/shiro.ini` file.
 It will be mounted at this location: `/opt/fuseki/shiro.ini`.
 When the container is starting, the value for `ADMIN_PASSWORD` will be set, and the final file would be created at `/fuseki/shiro.ini`.
+
+## Dataset
+
+A dataset `ds` is already configured in the `config/config.ttl` file.
+It's a read-only dataset, with union graph and GeoSPARQL enabled.
+Feel free to update this file for your needs.
