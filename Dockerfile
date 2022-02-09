@@ -91,9 +91,7 @@ RUN \
 FROM --platform=${TARGETPLATFORM} "docker.io/library/alpine:${ALPINE_VERSION}"
 
 # install some required dependencies
-RUN apk add --no-cache \
-  gettext \
-  tini
+RUN apk add --no-cache gettext
 
 ARG JENA_VERSION
 ARG FUSEKI_HOME
@@ -134,5 +132,5 @@ WORKDIR "${FUSEKI_BASE}"
 EXPOSE 3030
 
 # keep this path in sync with $FUSEKI_HOME since ENTRYPOINT does not do buildarg expansion
-ENTRYPOINT [ "tini", "--", "/opt/fuseki/entrypoint.sh" ]
+ENTRYPOINT [ "/opt/fuseki/entrypoint.sh" ]
 CMD []
