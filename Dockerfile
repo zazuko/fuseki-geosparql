@@ -91,7 +91,9 @@ RUN \
 FROM --platform=${TARGETPLATFORM} "docker.io/library/alpine:${ALPINE_VERSION}"
 
 # install some required dependencies
-RUN apk add --no-cache tini
+RUN apk add --no-cache \
+  gettext \
+  tini
 
 ARG JENA_VERSION
 ARG FUSEKI_HOME
@@ -111,7 +113,9 @@ RUN mkdir -p "${FUSEKI_BASE}/databases" \
   && chown -R fuseki "${FUSEKI_BASE}"
 
 WORKDIR "${FUSEKI_HOME}"
-COPY entrypoint.sh log4j2.properties shiro.ini ./
+COPY config/log4j2.properties config/shiro.ini entrypoint.sh ./
+COPY config/config.ttl "${FUSEKI_BASE}"
+RUN chmod +x entrypoint.sh
 
 # default environment variables
 ENV \
@@ -122,7 +126,8 @@ ENV \
   FUSEKI_BASE="${FUSEKI_BASE}" \
   OTEL_TRACES_EXPORTER="none" \
   OTEL_METRICS_EXPORTER="none" \
-  ENABLE_DEFAULT_GEOMETRY="true"
+  ENABLE_DEFAULT_GEOMETRY="true" \
+  ADMIN_PASSWORD="admin"
 
 # run as "fuseki" (explicit UID so "run as non-root" policies can be enforced)
 USER 1000
