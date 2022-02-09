@@ -1,0 +1,17 @@
+diff --git a/jena-fuseki2/jena-fuseki-core/pom.xml b/jena-fuseki2/jena-fuseki-core/pom.xml
+index 84c9e28..7e4bc29 100644
+--- a/jena-fuseki2/jena-fuseki-core/pom.xml
++++ b/jena-fuseki2/jena-fuseki-core/pom.xml
+@@ -35,6 +35,12 @@
+
+   <dependencies>
+
++    <dependency>
++      <groupId>org.apache.jena</groupId>
++      <artifactId>jena-geosparql</artifactId>
++      <version>4.4.0</version>
++    </dependency>
++
+     <dependency>
+       <groupId>org.apache.jena</groupId>
+       <artifactId>jena-shacl</artifactId>
