@@ -49,6 +49,9 @@ WORKDIR "${FUSEKI_HOME}"
 # add opentelemetry support
 RUN wget "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_VERSION}/${OTEL_JAR}"
 
+# figure out JDEPS
+RUN jdeps --multi-release base --print-module-deps --ignore-missing-deps ${OTEL_JAR} ${GEOSPARQL_JAR} > /tmp/jdeps
+
 FROM "docker.io/library/alpine:${ALPINE_VERSION}" as deps
 ARG FUSEKI_HOME
 ARG OTEL_JAR
@@ -57,15 +60,16 @@ ARG JAVA_MINIMAL
 ARG JDEPS_EXTRA
 
 WORKDIR "${FUSEKI_HOME}"
+RUN apk add --no-cache openjdk16
+
 COPY --from=builder "${FUSEKI_HOME}" "${FUSEKI_HOME}"
-RUN apk add --no-cache openjdk16 binutils
+COPY --from=builder /tmp/jdeps /tmp/jdeps
 
 RUN \
-  JDEPS="$(jdeps --multi-release base --print-module-deps --ignore-missing-deps ${OTEL_JAR} ${GEOSPARQL_JAR})" && \
   jlink \
-  --compress 2 --strip-debug --no-header-files --no-man-pages \
+  --compress 2 --no-header-files --no-man-pages \
   --output "${JAVA_MINIMAL}" \
-  --add-modules "${JDEPS},${JDEPS_EXTRA}"
+  --add-modules "$(cat /tmp/jdeps),${JDEPS_EXTRA}"
 
 
 FROM "docker.io/library/alpine:${ALPINE_VERSION}"
