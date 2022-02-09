@@ -39,9 +39,19 @@ WORKDIR /build/jena/jena-fuseki2
 # build Fuseki with GeoSPARQL support
 RUN mvn package -Dmaven.javadoc.skip=true
 RUN unzip "/build/jena/jena-fuseki2/apache-jena-fuseki/target/apache-jena-fuseki-${JENA_VERSION}.zip" \
-  && mv "apache-jena-fuseki-${JENA_VERSION}" /build/fuseki
+  && mkdir -p "${FUSEKI_HOME}" \
+  && cd "apache-jena-fuseki-${JENA_VERSION}" \
+  && find ./ -maxdepth 1 -mindepth 1 -exec mv -t "${FUSEKI_HOME}" {} + \
+  && cd .. \
+  && rm -rf "apache-jena-fuseki-${JENA_VERSION}"
 
-WORKDIR /build/fuseki
+WORKDIR "${FUSEKI_HOME}"
+
+# add opentelemetry support
+RUN wget "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_VERSION}/${OTEL_JAR}" -O otel.jar
+
+# figure out JDEPS
+RUN jdeps --multi-release base --print-module-deps --ignore-missing-deps fuseki-server.jar otel.jar > /tmp/jdeps
 
 EXPOSE 3030
 ENTRYPOINT [ "/build/fuseki/fuseki-server" ]
@@ -51,11 +61,6 @@ ENTRYPOINT [ "/build/fuseki/fuseki-server" ]
 
 # WORKDIR "${FUSEKI_HOME}"
 
-# # add opentelemetry support
-# RUN wget "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_VERSION}/${OTEL_JAR}"
-
-# # figure out JDEPS
-# RUN jdeps --multi-release base --print-module-deps --ignore-missing-deps ${OTEL_JAR} ${GEOSPARQL_JAR} > /tmp/jdeps
 
 
 # #############################################################
