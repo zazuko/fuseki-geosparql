@@ -14,7 +14,7 @@ It is listening on the 3030 port, so you should be able to access the web interf
 
 ## Configuration
 
-It is possible to use following environment variables for configuration:
+It is possible to use the following environment variables for configuration:
 
 - `ADMIN_PASSWORD` (default: `admin`), the password for the admin user
 - `JAVA_OPTIONS` (default: `-Xmx2048m -Xms2048m`), allocate more resources by changing this values
@@ -28,7 +28,7 @@ Here are some default routes, publicly available:
 
 - `/$/status`: get Fuseki's status
 - `/$/server`: get Fuseki's status
-- `/$/ping`: helth check endpoint
+- `/$/ping`: health check endpoint
 - `/$/metrics`: some Prometheus metrics
 
 All other routes that have are prefixed with `/$/` needs basic authentication:
@@ -50,3 +50,6 @@ Feel free to update this file for your needs.
 
 This dataset is stored at `/fuseki/databases/ds`.
 If you want to persist this dataset, you can mount `/fuseki/databases/` as a volume.
+
+If your dataset is huge, you may be interested in generating the spatial index file before starting the Fuseki instance.
+You can have a look at this tool: https://github.com/zazuko/spatial-indexer.
