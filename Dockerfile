@@ -1,8 +1,7 @@
 # manage tools versions
 ARG ALPINE_VERSION="3.15"
-ARG UBUNTU_VERSION="22.04"
 ARG JENA_VERSION="4.4.0"
-ARG OTEL_VERSION="1.10.1"
+ARG OTEL_VERSION="1.11.1"
 
 # configure some paths, names and args
 ARG FUSEKI_HOME="/opt/fuseki"
