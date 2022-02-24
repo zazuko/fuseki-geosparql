@@ -1,0 +1,220 @@
+version: "3.2"
+
+services:
+  fuseki-persons:
+    build: ../../
+    networks:
+      - application
+      - monitoring
+    environment:
+      OTEL_RESOURCE_ATTRIBUTES: service.name=fuseki-persons
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_METRICS_EXPORTER: otlp
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
+    depends_on:
+      - collector
+    healthcheck:
+      test:
+        ["CMD-SHELL", "wget -nv -t1 --spider localhost:3030/$$/ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./data/:/data/
+      - ./config/fuseki-persons.ttl:/fuseki/config.ttl:ro
+    ports:
+      - 3030:3030
+    labels:
+      co.elastic.logs/enabled: "true"
+      co.elastic.logs/module: "fuseki"
+      co.elastic.logs/fileset: log
+    logging:
+      driver: json-file
+
+  fuseki-relations:
+    build: ../../
+    networks:
+      - application
+      - monitoring
+    environment:
+      OTEL_RESOURCE_ATTRIBUTES: service.name=fuseki-relations
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_METRICS_EXPORTER: otlp
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
+    depends_on:
+      - collector
+    healthcheck:
+      test:
+        ["CMD-SHELL", "wget -nv -t1 --spider localhost:3030/$$/ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./data/:/data/
+      - ./config/fuseki-relations.ttl:/fuseki/config.ttl:ro
+    ports:
+      - 3031:3030
+    labels:
+      co.elastic.logs/enabled: "true"
+      co.elastic.logs/module: "fuseki"
+      co.elastic.logs/fileset: log
+    logging:
+      driver: json-file
+
+  jaeger:
+    image: docker.io/jaegertracing/all-in-one:1.31.0
+    networks:
+      - monitoring
+    healthcheck:
+      test: ["CMD-SHELL", "wget -nv -t1 --spider localhost:14269/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "16686:16686"
+    labels:
+      co.elastic.logs/enabled: "false"
+
+  collector:
+    image: docker.io/otel/opentelemetry-collector-contrib:0.45.0
+    command: >-
+      --config=/collector.yaml
+    networks:
+      - application
+      - monitoring
+    depends_on:
+      jaeger:
+        condition: service_healthy
+    volumes:
+      - ./config/collector.yaml:/collector.yaml:ro
+    labels:
+      co.elastic.logs/enabled: "false"
+
+  prometheus:
+    image: docker.io/prom/prometheus:v2.33.4
+    command: >-
+      --config.file=/prometheus.yaml
+      --web.enable-lifecycle
+    networks:
+      - monitoring
+    depends_on:
+      - collector
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -nv -t1 --spider localhost:9090/-/healthy || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./config/prometheus.yaml:/prometheus.yaml:ro
+    ports:
+      - 9090:9090
+    labels:
+      co.elastic.logs/enabled: "false"
+
+  opensearch:
+    image: docker.io/opensearchproject/opensearch:1.2.4
+    environment:
+      node.name: opensearch
+      cluster.name: opensearch
+      bootstrap.memory_lock: "true"
+      discovery.type: single-node
+      compatibility.override_main_response_version: "true"
+      ES_JAVA_OPTS: -Xms2G -Xmx2G
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent --fail https://localhost:9200/_cluster/health --insecure -u admin:admin || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+    labels:
+      co.elastic.logs/enabled: "false"
+      co.elastic.logs/module: "elasticsearch"
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat-oss:7.12.1
+    user: root
+    depends_on:
+      opensearch:
+        condition: service_healthy
+      opensearch-dashboards:
+        condition: service_healthy
+    command: >-
+      -e
+      --strict.perms=false
+    environment:
+      ELASTICSEARCH_HOST: 'https://opensearch:9200'
+      KIBANA_HOST: opensearch-dashboards:5601
+    volumes:
+      - ./config/filebeat.yaml:/usr/share/filebeat/filebeat.yml:ro
+      - ./filebeat-module:/usr/share/filebeat/module/fuseki:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
+    networks:
+      - elastic
+    labels:
+      co.elastic.logs/enabled: "false"
+
+  opensearch-dashboards:
+    image: docker.io/opensearchproject/opensearch-dashboards:1.2.0
+    depends_on:
+      opensearch:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent --fail localhost:5601/api/status || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      co.elastic.logs/enabled: "false"
+      co.elastic.logs/module: "kibana"
+    networks:
+      - elastic
+    ports:
+      - 5601:5601
+    environment:
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+
+  grafana:
+    image: docker.io/grafana/grafana:8.4.1
+    ports:
+      - 3000:3000
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+    networks:
+      - monitoring
+      - elastic
+    volumes:
+      - ./config/grafana.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
+    healthcheck:
+      test:
+        ["CMD-SHELL", "wget -nv -t1 --spider localhost:3000/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      co.elastic.logs/enabled: "false"
+
+networks:
+  monitoring:
+  elastic:
+  application:

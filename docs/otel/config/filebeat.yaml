@@ -1,0 +1,38 @@
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+processors:
+  - add_docker_metadata: ~
+
+output.elasticsearch:
+  hosts: ["${ELASTICSEARCH_HOST}"]
+  username: admin
+  password: admin
+  ssl:
+    verification_mode: none
+
+setup.dashboards:
+  enabled: false
+
+setup.kibana:
+  host: "${KIBANA_HOST}"
+  ssl:
+    verification_mode: none
+
+setup.template:
+  enabled: true
+  type: index
+  settings:
+    index:
+      number_of_shards: 1
+      number_of_replicas: 0
+
+#setup.ilm:
+#  enabled: true
+#  rollover_alias: "filebeat"
+
+monitoring:
+  enabled: true
+  elasticsearch:

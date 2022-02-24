@@ -1,0 +1,63 @@
+<urn:tbbt:amy-farrah-fowler> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+<urn:tbbt:amy-farrah-fowler> <http://schema.org/additionalName> "Farrah" .
+<urn:tbbt:amy-farrah-fowler> <http://schema.org/familyName> "Fowler" .
+<urn:tbbt:amy-farrah-fowler> <http://schema.org/givenName> "Amy" .
+<urn:tbbt:amy-farrah-fowler> <http://schema.org/jobTitle> "neurobiologist" .
+<urn:tbbt:bernadette-rostenkowski> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+<urn:tbbt:bernadette-rostenkowski> <http://schema.org/additionalName> "Maryann" .
+<urn:tbbt:bernadette-rostenkowski> <http://schema.org/familyName> "Rostenkowski-Wolowitz" .
+<urn:tbbt:bernadette-rostenkowski> <http://schema.org/givenName> "Bernadette" .
+<urn:tbbt:bernadette-rostenkowski> <http://schema.org/jobTitle> "microbiologist" .
+<urn:tbbt:howard-wolowitz> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+<urn:tbbt:howard-wolowitz> <http://schema.org/additionalName> "Joel" .
+<urn:tbbt:howard-wolowitz> <http://schema.org/familyName> "Wolowitz" .
+<urn:tbbt:howard-wolowitz> <http://schema.org/givenName> "Howard" .
+<urn:tbbt:howard-wolowitz> <http://schema.org/jobTitle> "aerospace engineer" .
+<urn:tbbt:leonard-hofstadter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+<urn:tbbt:leonard-hofstadter> <http://schema.org/additionalName> "Leakey" .
+_:b1 <http://schema.org/addressCountry> "US" .
+_:b1 <http://schema.org/addressLocality> "Pasadena" .
+_:b1 <http://schema.org/addressRegion> "CA" .
+_:b1 <http://schema.org/postalCode> "91104" .
+_:b1 <http://schema.org/streetAddress> "2311 North Los Robles Avenue, Apartment 4A" .
+<urn:tbbt:leonard-hofstadter> <http://schema.org/address> _:b1 .
+<urn:tbbt:leonard-hofstadter> <http://schema.org/familyName> "Hofstadter" .
+<urn:tbbt:leonard-hofstadter> <http://schema.org/givenName> "Leonard" .
+<urn:tbbt:leonard-hofstadter> <http://schema.org/jobTitle> "experimental physicist" .
+<urn:tbbt:mary-cooper> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+_:b2 <http://schema.org/addressCountry> "US" .
+_:b2 <http://schema.org/addressRegion> "TX" .
+<urn:tbbt:mary-cooper> <http://schema.org/address> _:b2 .
+<urn:tbbt:mary-cooper> <http://schema.org/children> <urn:tbbt:sheldon-cooper> .
+<urn:tbbt:mary-cooper> <http://schema.org/familyName> "Cooper" .
+<urn:tbbt:mary-cooper> <http://schema.org/givenName> "Mary" .
+<urn:tbbt:penny> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+_:b3 <http://schema.org/addressCountry> "US" .
+_:b3 <http://schema.org/addressLocality> "Pasadena" .
+_:b3 <http://schema.org/addressRegion> "CA" .
+_:b3 <http://schema.org/postalCode> "91104" .
+_:b3 <http://schema.org/streetAddress> "2311 North Los Robles Avenue, Apartment 4B" .
+<urn:tbbt:penny> <http://schema.org/address> _:b3 .
+<urn:tbbt:penny> <http://schema.org/givenName> "Penny" .
+<urn:tbbt:penny> <http://schema.org/jobTitle> "pharmaceutical sales representative" .
+<urn:tbbt:rajesh-koothrappali> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+<urn:tbbt:rajesh-koothrappali> <http://schema.org/additionalName> "Ramayan Raj" .
+<urn:tbbt:rajesh-koothrappali> <http://schema.org/familyName> "Koothrappali" .
+<urn:tbbt:rajesh-koothrappali> <http://schema.org/givenName> "Rajesh" .
+<urn:tbbt:rajesh-koothrappali> <http://schema.org/jobTitle> "astrophysicist" .
+<urn:tbbt:sheldon-cooper> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+<urn:tbbt:sheldon-cooper> <http://schema.org/additionalName> "Lee" .
+_:b4 <http://schema.org/addressCountry> "US" .
+_:b4 <http://schema.org/addressLocality> "Pasadena" .
+_:b4 <http://schema.org/addressRegion> "CA" .
+_:b4 <http://schema.org/postalCode> "91104" .
+_:b4 <http://schema.org/streetAddress> "2311 North Los Robles Avenue, Apartment 4A" .
+<urn:tbbt:sheldon-cooper> <http://schema.org/address> _:b4 .
+<urn:tbbt:sheldon-cooper> <http://schema.org/familyName> "Cooper" .
+<urn:tbbt:sheldon-cooper> <http://schema.org/givenName> "Sheldon" .
+<urn:tbbt:sheldon-cooper> <http://schema.org/jobTitle> "theoretical physicist" .
+<urn:tbbt:sheldon-cooper> <http://schema.org/parent> <urn:tbbt:mary-cooper> .
+<urn:tbbt:stuart-bloom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+<urn:tbbt:stuart-bloom> <http://schema.org/familyName> "Bloom" .
+<urn:tbbt:stuart-bloom> <http://schema.org/givenName> "Stuart" .
+<urn:tbbt:stuart-bloom> <http://schema.org/jobTitle> "comic book store owner" .

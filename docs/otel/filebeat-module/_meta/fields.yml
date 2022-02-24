@@ -1,0 +1,9 @@
+- key: fuseki
+  title: "fuseki"
+  description: >
+    fuseki Module
+  fields:
+    - name: fuseki
+      type: group
+      description: >
+      fields:

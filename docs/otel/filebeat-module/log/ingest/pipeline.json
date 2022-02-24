@@ -1,0 +1,92 @@
+{
+    "description": "Pipeline for parsing fuseki log logs",
+    "processors": [
+        {
+            "set": {
+                "field": "event.ingested",
+                "value": "{{ _ingest.timestamp }}"
+            }
+        },
+        {
+            "grok": {
+                "field": "message",
+                "patterns": [
+                    "\\[%{HOSTNAME:log.syslog.facility.name} %{TIMESTAMP_ISO8601:fuseki.time}\\] \\[%{HOSTNAME:process.thread.name}\\] %{LOGLEVEL:log.level} %{HOSTNAME:log.logger}(?: \\{%{CONTEXT:fuseki.context}\\})? - %{GREEDYMULTILINE:message}"
+                ],
+                "pattern_definitions": {
+                    "CONTEXT": "[^\\}]*",
+                    "ISO8601_TIMEZONE": "%{SPACE}(?:Z|[+-]%{HOUR}%{MINUTE})",
+                    "GREEDYMULTILINE": "(.|\n| )*"
+                }
+            }
+        },
+        {
+            "kv": {
+                "field": "fuseki.context",
+                "target_field": "fuseki.context_json",
+                "field_split": ", ",
+                "value_split": "=",
+                "include_keys": ["trace_id", "span_id"],
+                "if": "ctx.fuseki?.context != null && ctx.fuseki.context.contains('=')"
+            }
+        },
+        {
+            "remove": {
+                "field": "fuseki.context",
+                "ignore_missing": true
+            }
+        },
+        {
+            "rename": {
+                "field": "@timestamp",
+                "target_field": "event.created"
+            }
+        },
+        {
+            "date": {
+                "field": "fuseki.time",
+                "target_field": "@timestamp",
+                "formats": ["yyyy-MM-dd HH:mm:ss:SSS Z"]
+            }
+        },
+        {
+            "remove": {
+                "field": "fuseki.time"
+            }
+        },
+        {
+            "rename": {
+                "field": "fuseki.context_json.trace_id",
+                "target_field": "trace.id",
+                "ignore_missing": true
+            }
+        },
+        {
+            "rename": {
+                "field": "fuseki.context_json.span_id",
+                "target_field": "span.id",
+                "ignore_missing": true
+            }
+        },
+        {
+            "remove": {
+                "field": "fuseki.context_json",
+                "ignore_missing": true
+            }
+        },
+        {
+            "remove": {
+                "field": "fuseki",
+                "ignore_missing": true
+            }
+        }
+    ],
+    "on_failure": [
+        {
+            "set": {
+                "field": "error.message",
+                "value": "{{ _ingest.on_failure_message }}"
+            }
+        }
+    ]
+}

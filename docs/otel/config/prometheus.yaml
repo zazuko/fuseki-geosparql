@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+  - job_name: "collector"
+    static_configs:
+      - targets: ["collector:8889"]
+  - job_name: "fuseki"
+    metrics_path: /$/metrics
+    static_configs:
+      - targets:
+          - fuseki-persons:3030
+          - fuseki-relations:3030

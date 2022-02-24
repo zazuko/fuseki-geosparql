@@ -1,0 +1,12 @@
+- name: level
+  description: Please add description
+  example: Please add example
+  type: keyword
+- name: logger
+  description: Please add description
+  example: Please add example
+  type: keyword
+- name: message
+  description: Please add description
+  example: Please add example
+  type: text

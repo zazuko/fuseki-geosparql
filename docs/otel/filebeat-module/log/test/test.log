@@ -1,0 +1,58 @@
+[opentelemetry.auto.trace 2021-05-12 18:02:00:238 +0000] [main] INFO io.opentelemetry.javaagent.tooling.VersionLogger - opentelemetry-javaagent - version: 1.1.0
+[opentelemetry.auto.trace 2021-05-12 18:02:00:239 +0000] [main] DEBUG io.opentelemetry.javaagent.tooling.VersionLogger - Running on Java 14-ea. JVM OpenJDK 64-Bit Server VM - Oracle Corporation - 14-ea+33
+[opentelemetry.auto.trace 2021-05-12 18:02:00:239 +0000] [main] DEBUG io.opentelemetry.javaagent.tooling.AgentInstaller - io.opentelemetry.javaagent.tooling.AgentInstaller loaded on io.opentelemetry.javaagent.bootstrap.AgentClassLoader@39ba5a14
+[opentelemetry.auto.trace 2021-05-12 18:02:00:313 +0000] [main] DEBUG io.grpc.ManagedChannelRegistry - Unable to find OkHttpChannelProvider
+java.lang.ClassNotFoundException: io.grpc.okhttp.OkHttpChannelProvider
+  at java.base/java.net.URLClassLoader.findClass(Unknown Source)
+  at java.base/java.lang.ClassLoader.loadClass(Unknown Source)
+  at java.base/java.lang.ClassLoader.loadClass(Unknown Source)
+  at java.base/java.lang.Class.forName0(Native Method)
+  at java.base/java.lang.Class.forName(Unknown Source)
+  at io.grpc.ManagedChannelRegistry.getHardCodedClasses(ManagedChannelRegistry.java:134)
+  at io.grpc.ManagedChannelRegistry.getDefaultRegistry(ManagedChannelRegistry.java:98)
+  at io.grpc.ManagedChannelProvider.provider(ManagedChannelProvider.java:41)
+  at io.grpc.ManagedChannelBuilder.forTarget(ManagedChannelBuilder.java:76)
+  at io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporterBuilder.build(OtlpGrpcMetricExporterBuilder.java:115)
+  at io.opentelemetry.sdk.autoconfigure.MetricExporterConfiguration.configureOtlpMetrics(MetricExporterConfiguration.java:82)
+  at io.opentelemetry.sdk.autoconfigure.MetricExporterConfiguration.configureExporter(MetricExporterConfiguration.java:28)
+  at io.opentelemetry.sdk.autoconfigure.OpenTelemetrySdkAutoConfiguration.configureMeterProvider(OpenTelemetrySdkAutoConfiguration.java:69)
+  at io.opentelemetry.sdk.autoconfigure.OpenTelemetrySdkAutoConfiguration.initialize(OpenTelemetrySdkAutoConfiguration.java:44)
+  at io.opentelemetry.javaagent.tooling.OpenTelemetryInstaller.installAgentTracer(OpenTelemetryInstaller.java:40)
+  at io.opentelemetry.javaagent.tooling.OpenTelemetryInstaller.beforeByteBuddyAgent(OpenTelemetryInstaller.java:27)
+  at io.opentelemetry.javaagent.tooling.AgentInstaller.installComponentsBeforeByteBuddy(AgentInstaller.java:174)
+  at io.opentelemetry.javaagent.tooling.AgentInstaller.installBytebuddyAgent(AgentInstaller.java:92)
+  at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+  at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+  at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+  at io.opentelemetry.javaagent.bootstrap.AgentInitializer.startAgent(AgentInitializer.java:44)
+  at io.opentelemetry.javaagent.bootstrap.AgentInitializer.initialize(AgentInitializer.java:30)
+  at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+  at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+  at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+  at io.opentelemetry.javaagent.OpenTelemetryAgent.agentmain(OpenTelemetryAgent.java:64)
+  at io.opentelemetry.javaagent.OpenTelemetryAgent.premain(OpenTelemetryAgent.java:51)
+  at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+  at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+  at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+  at java.instrument/sun.instrument.InstrumentationImpl.loadClassAndStartAgent(Unknown Source)
+  at java.instrument/sun.instrument.InstrumentationImpl.loadClassAndCallPremain(Unknown Source)
+[fuseki 2021-05-12 17:12:49:810 +0000] [main] INFO org.apache.jena.fuseki.Server {} - Dataset: in-memory: load file: /data/persons.nt
+[fuseki 2021-05-12 17:12:49:903 +0000] [main] INFO org.apache.jena.fuseki.Server {} - Running in read-only mode for /ds
+[fuseki 2021-05-12 17:12:50:303 +0000] [main] INFO org.apache.jena.fuseki.Server {} - Apache Jena Fuseki 4.0.0
+[fuseki 2021-05-12 17:12:50:490 +0000] [main] INFO org.apache.jena.fuseki.Config {} - FUSEKI_HOME=/fuseki/.
+[fuseki 2021-05-12 17:12:50:491 +0000] [main] INFO org.apache.jena.fuseki.Config {} - FUSEKI_BASE=/fuseki/run
+[fuseki 2021-05-12 17:12:50:558 +0000] [main] INFO org.apache.jena.fuseki.Config {} - Shiro file: file:///fuseki/run/shiro.ini
+[fuseki 2021-05-12 17:12:51:334 +0000] [main] INFO org.apache.jena.fuseki.Server {} - Database: in-memory, with files loaded
+[fuseki 2021-05-12 17:12:51:335 +0000] [main] INFO org.apache.jena.fuseki.Server {} - Path = /ds
+[fuseki 2021-05-12 17:12:51:335 +0000] [main] INFO org.apache.jena.fuseki.Server {} - System
+[fuseki 2021-05-12 17:12:51:337 +0000] [main] INFO org.apache.jena.fuseki.Server {} -   Memory: 2.0 GiB
+[fuseki 2021-05-12 17:12:51:337 +0000] [main] INFO org.apache.jena.fuseki.Server {} -   Java:   14-ea
+[fuseki 2021-05-12 17:12:51:337 +0000] [main] INFO org.apache.jena.fuseki.Server {} -   OS:     Linux 5.11.0-16-generic amd64
+[fuseki 2021-05-12 17:12:51:337 +0000] [main] INFO org.apache.jena.fuseki.Server {} -   PID:    1
+[fuseki 2021-05-12 17:12:51:507 +0000] [main] INFO org.apache.jena.fuseki.Server {} - Started 2021/05/12 17:12:51 GMT on port 3030
+[fuseki 2021-05-12 17:13:48:095 +0000] [qtp710088247-21] INFO org.apache.jena.fuseki.Fuseki {trace_id=d20b47737e6cd20646920062053229a8, span_id=f67cd22261f7b2f3, trace_flags=01} - [3] POST http://localhost:3030/ds/sparql
+[fuseki 2021-05-12 17:13:48:102 +0000] [qtp710088247-21] INFO org.apache.jena.fuseki.Fuseki {trace_id=d20b47737e6cd20646920062053229a8, span_id=f67cd22261f7b2f3, trace_flags=01} - [3] Query =   SELECT ?subject ?predicate ?object WHERE {   ?subject ?predicate ?object } LIMIT 25
+[fuseki 2021-05-12 17:13:48:155 +0000] [qtp710088247-21] INFO org.apache.jena.fuseki.Fuseki {trace_id=d20b47737e6cd20646920062053229a8, span_id=f67cd22261f7b2f3, trace_flags=01} - [3] 200 OK (58 ms)

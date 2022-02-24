@@ -1,0 +1,35 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    uid: prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+
+  - name: Jaeger
+    uid: jaeger
+    type: jaeger
+    access: proxy
+    url: http://jaeger:16686
+
+  - name: ElasticSearch
+    isDefault: true
+    uid: elasticsearch
+    type: elasticsearch
+    access: proxy
+    url: https://opensearch:9200
+    database: "filebeat-*"
+    basicAuth: true
+    basicAuthUser: admin
+    basicAuthPassword: admin
+    jsonData:
+      esVersion: 70
+      tlsSkipVerify: true
+      timeField: "@timestamp"
+      logMessageField: message
+      logLevelField: log.level
+      dataLinks:
+        - datasourceUid: jaeger
+          field: "trace.id"
+          url: "$${__value.raw}"
