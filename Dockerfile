@@ -9,7 +9,7 @@ ARG FUSEKI_HOME="/opt/fuseki"
 ARG FUSEKI_BASE="/fuseki"
 ARG OTEL_JAR="opentelemetry-javaagent.jar"
 ARG JAVA_MINIMAL="/opt/java-minimal"
-ARG JDEPS_EXTRA="jdk.crypto.cryptoki,jdk.crypto.ec"
+ARG JDEPS_EXTRA="jdk.crypto.cryptoki,jdk.crypto.ec,jdk.httpserver"
 
 
 ###########################################################
