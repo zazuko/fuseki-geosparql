@@ -90,7 +90,9 @@ RUN \
 FROM --platform=${TARGETPLATFORM} "docker.io/library/alpine:${ALPINE_VERSION}"
 
 # install some required dependencies
-RUN apk add --no-cache gettext
+RUN apk add --no-cache \
+  ca-certificates \
+  gettext
 
 ARG JENA_VERSION
 ARG FUSEKI_HOME
