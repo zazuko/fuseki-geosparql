@@ -9,7 +9,7 @@ index 84c9e28..7e4bc29 100644
 +    <dependency>
 +      <groupId>org.apache.jena</groupId>
 +      <artifactId>jena-geosparql</artifactId>
-+      <version>4.4.0</version>
++      <version>4.5.0</version>
 +    </dependency>
 +
      <dependency>
