@@ -39,7 +39,7 @@ RUN patch -p1 < enable-geosparql.diff
 WORKDIR /build/jena/jena-fuseki2
 
 # build Fuseki with GeoSPARQL support
-RUN mvn package -Dmaven.javadoc.skip=true
+RUN mvn package -Dmaven.javadoc.skip=true -DskipTests
 RUN unzip "/build/jena/jena-fuseki2/apache-jena-fuseki/target/apache-jena-fuseki-${JENA_VERSION}.zip" \
   && mkdir -p "${FUSEKI_HOME}" \
   && cd "apache-jena-fuseki-${JENA_VERSION}" \
