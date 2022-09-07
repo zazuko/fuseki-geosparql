@@ -2,6 +2,7 @@
 ARG ALPINE_VERSION="3.16"
 ARG JENA_VERSION="4.6.0"
 ARG OTEL_VERSION="1.17.0"
+ARG MAVEN_VERSION="3.8.6"
 
 # configure some paths, names and args
 ARG FUSEKI_HOME="/opt/fuseki"
@@ -14,7 +15,7 @@ ARG JDEPS_EXTRA="jdk.crypto.cryptoki,jdk.crypto.ec,jdk.httpserver"
 ###########################################################
 # Build Fuseki from sources and include GeoSPARQL support #
 ###########################################################
-FROM --platform=${BUILDPLATFORM} "docker.io/library/maven:3.8.5-openjdk-18-slim" AS builder
+FROM --platform=${BUILDPLATFORM} "docker.io/library/maven:${MAVEN_VERSION}-openjdk-18-slim" AS builder
 ARG JENA_VERSION
 ARG OTEL_VERSION
 ARG FUSEKI_HOME
