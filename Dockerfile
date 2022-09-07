@@ -32,14 +32,17 @@ RUN apt update && apt install -y \
 RUN wget "https://github.com/apache/jena/archive/refs/tags/jena-${JENA_VERSION}.zip" -O jena.zip \
   && unzip jena.zip && mv "jena-jena-${JENA_VERSION}" jena
 
-# WORKDIR /build/jena
-# COPY patches/enable-geosparql.diff .
-# RUN patch -p1 < enable-geosparql.diff
-
+# first build Fuseki with GeoSPARQL support
 WORKDIR /build/jena/jena-fuseki2
-
-# build Fuseki with GeoSPARQL support
 RUN mvn package -Dmaven.javadoc.skip=true
+
+# then build using GeoSPARQL support
+WORKDIR /build/jena
+COPY patches/enable-geosparql.diff .
+RUN patch -p1 < enable-geosparql.diff
+WORKDIR /build/jena/jena-fuseki2
+RUN mvn package -Dmaven.javadoc.skip=true -DskipTests
+
 RUN unzip "/build/jena/jena-fuseki2/apache-jena-fuseki/target/apache-jena-fuseki-${JENA_VERSION}.zip" \
   && mkdir -p "${FUSEKI_HOME}" \
   && cd "apache-jena-fuseki-${JENA_VERSION}" \
