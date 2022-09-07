@@ -32,9 +32,9 @@ RUN apt update && apt install -y \
 RUN wget "https://github.com/apache/jena/archive/refs/tags/jena-${JENA_VERSION}.zip" -O jena.zip \
   && unzip jena.zip && mv "jena-jena-${JENA_VERSION}" jena
 
-WORKDIR /build/jena
-COPY patches/enable-geosparql.diff .
-RUN patch -p1 < enable-geosparql.diff
+# WORKDIR /build/jena
+# COPY patches/enable-geosparql.diff .
+# RUN patch -p1 < enable-geosparql.diff
 
 WORKDIR /build/jena/jena-fuseki2
 
