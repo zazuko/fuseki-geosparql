@@ -1,6 +1,6 @@
 # manage tools versions
 ARG ALPINE_VERSION="3.15"
-ARG JENA_VERSION="4.5.0"
+ARG JENA_VERSION="4.6.0"
 ARG OTEL_VERSION="1.14.0"
 
 # configure some paths, names and args
@@ -39,7 +39,7 @@ RUN patch -p1 < enable-geosparql.diff
 WORKDIR /build/jena/jena-fuseki2
 
 # build Fuseki with GeoSPARQL support
-RUN mvn package -Dmaven.javadoc.skip=true -DskipTests
+RUN mvn package -Dmaven.javadoc.skip=true
 RUN unzip "/build/jena/jena-fuseki2/apache-jena-fuseki/target/apache-jena-fuseki-${JENA_VERSION}.zip" \
   && mkdir -p "${FUSEKI_HOME}" \
   && cd "apache-jena-fuseki-${JENA_VERSION}" \
