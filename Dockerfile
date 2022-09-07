@@ -1,7 +1,8 @@
 # manage tools versions
-ARG ALPINE_VERSION="3.15"
-ARG JENA_VERSION="4.5.0"
-ARG OTEL_VERSION="1.14.0"
+ARG ALPINE_VERSION="3.16"
+ARG JENA_VERSION="4.6.0"
+ARG OTEL_VERSION="1.17.0"
+ARG MAVEN_VERSION="3.8.6"
 
 # configure some paths, names and args
 ARG FUSEKI_HOME="/opt/fuseki"
@@ -14,7 +15,7 @@ ARG JDEPS_EXTRA="jdk.crypto.cryptoki,jdk.crypto.ec,jdk.httpserver"
 ###########################################################
 # Build Fuseki from sources and include GeoSPARQL support #
 ###########################################################
-FROM --platform=${BUILDPLATFORM} "docker.io/library/maven:3.8.5-openjdk-18-slim" AS builder
+FROM --platform=${BUILDPLATFORM} "docker.io/library/maven:${MAVEN_VERSION}-openjdk-18-slim" AS builder
 ARG JENA_VERSION
 ARG OTEL_VERSION
 ARG FUSEKI_HOME
@@ -32,14 +33,17 @@ RUN apt update && apt install -y \
 RUN wget "https://github.com/apache/jena/archive/refs/tags/jena-${JENA_VERSION}.zip" -O jena.zip \
   && unzip jena.zip && mv "jena-jena-${JENA_VERSION}" jena
 
+# first build Fuseki with GeoSPARQL support
+WORKDIR /build/jena/jena-fuseki2
+RUN mvn package -Dmaven.javadoc.skip=true
+
+# then build using GeoSPARQL support
 WORKDIR /build/jena
 COPY patches/enable-geosparql.diff .
 RUN patch -p1 < enable-geosparql.diff
-
 WORKDIR /build/jena/jena-fuseki2
-
-# build Fuseki with GeoSPARQL support
 RUN mvn package -Dmaven.javadoc.skip=true -DskipTests
+
 RUN unzip "/build/jena/jena-fuseki2/apache-jena-fuseki/target/apache-jena-fuseki-${JENA_VERSION}.zip" \
   && mkdir -p "${FUSEKI_HOME}" \
   && cd "apache-jena-fuseki-${JENA_VERSION}" \
