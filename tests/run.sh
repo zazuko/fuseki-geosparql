@@ -3,6 +3,6 @@
 set -eu
 
 DOCKER_BUILDKIT=1 docker-compose up -d --build
-sleep 5
+sleep 10
 hurl --test *.hurl
 docker-compose down
