@@ -33,10 +33,6 @@ RUN apt update && apt install -y \
 RUN wget "https://github.com/apache/jena/archive/refs/tags/jena-${JENA_VERSION}.zip" -O jena.zip \
   && unzip jena.zip && mv "jena-jena-${JENA_VERSION}" jena
 
-# first build Fuseki with GeoSPARQL support
-WORKDIR /build/jena/jena-fuseki2
-RUN mvn package -Dmaven.javadoc.skip=true
-
 # then build using GeoSPARQL support
 WORKDIR /build/jena
 COPY patches/enable-geosparql.diff .
@@ -136,6 +132,5 @@ USER 1000
 WORKDIR "${FUSEKI_BASE}"
 EXPOSE 3030
 
-# keep this path in sync with $FUSEKI_HOME since ENTRYPOINT does not do buildarg expansion
-ENTRYPOINT [ "/opt/fuseki/entrypoint.sh" ]
-CMD []
+# keep this path in sync with $FUSEKI_HOME
+CMD [ "/opt/fuseki/entrypoint.sh" ]
