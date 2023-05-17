@@ -5,8 +5,6 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
-      platforms:
-        - linux/amd64
     ports:
       - 3030:3030
     environment:
