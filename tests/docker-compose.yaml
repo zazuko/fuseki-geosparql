@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  fuseki:
+  fuseki-default:
     build:
       context: ../
       dockerfile: Dockerfile
@@ -9,3 +9,15 @@ services:
       - 3030:3030
     environment:
       - ADMIN_PASSWORD=secret
+
+  fuseki-geosparql:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    ports:
+      - 3031:3030
+    environment:
+      - ADMIN_PASSWORD=secret
+    volumes:
+      - ./geosparql/data.nt:/data/data.nt:ro
+      - ./geosparql/config.ttl:/fuseki/config.ttl:ro
