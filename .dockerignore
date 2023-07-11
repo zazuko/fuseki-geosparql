@@ -3,4 +3,5 @@ docs/
 .github/
 Dockerfile
 .dockerignore
-tests
+tests/
+node_modules/

@@ -1,0 +1,16 @@
+{
+  "name": "fuseki-geosparql",
+  "version": "2.2.0",
+  "description": "Non-offcial Fuseki Docker image with GeoSPARQL support",
+  "main": "index.js",
+  "repository": "git@github.com:zazuko/fuseki-geosparql.git",
+  "author": "Zazuko GmbH",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "release": "changeset tag"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2"
+  }
+}
