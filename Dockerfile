@@ -24,7 +24,7 @@ ARG OTEL_JAR
 WORKDIR /build
 
 # install some dependencies
-RUN apt update && apt install -y \
+RUN apt-get update && apt-get install -y \
   patch \
   unzip \
   wget
