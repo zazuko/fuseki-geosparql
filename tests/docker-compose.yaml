@@ -2,6 +2,7 @@ version: "3"
 
 services:
   fuseki-default:
+    image: ghcr.io/zazuko/fuseki-geosparql
     build:
       context: ../
       dockerfile: Dockerfile
@@ -11,6 +12,7 @@ services:
       - ADMIN_PASSWORD=secret
 
   fuseki-geosparql:
+    image: ghcr.io/zazuko/fuseki-geosparql
     build:
       context: ../
       dockerfile: Dockerfile
