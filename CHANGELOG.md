@@ -1,5 +1,19 @@
 # fuseki-geosparql
 
+## 3.0.0
+
+### Major Changes
+
+- bd23ac8: Require to be authenticated for endpoints with write access.
+
+  Starting this version, all routes that are ending with:
+
+  - `/data`
+  - `/upload`
+  - `/update`
+
+  are also protected and require authentication.
+
 ## 2.3.1
 
 ### Patch Changes
