@@ -36,6 +36,12 @@ All other routes that have are prefixed with `/$/` needs basic authentication:
 - username: `admin`
 - password: value of the `ADMIN_PASSWORD` environment variable
 
+Some routes that are known to be used for write permissions are also protected; there are the ones ending with:
+
+- `/data`
+- `/upload`
+- `/update`
+
 All other routes are publicly available.
 
 If you want to change this behavior, you will need to change the `config/shiro.ini` file.
