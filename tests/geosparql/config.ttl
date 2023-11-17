@@ -1,10 +1,10 @@
-@prefix :        <#> .
-@prefix fuseki:  <http://jena.apache.org/fuseki#> .
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ja:      <http://jena.hpl.hp.com/2005/11/Assembler#> .
-@prefix tdb2:      <http://jena.apache.org/2016/tdb#>
-@prefix geosparql: <http://jena.apache.org/geosparql#>
+@prefix :          <#> .
+@prefix fuseki:    <http://jena.apache.org/fuseki#> .
+@prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ja:        <http://jena.hpl.hp.com/2005/11/Assembler#> .
+@prefix tdb2:      <http://jena.apache.org/2016/tdb#> .
+@prefix geosparql: <http://jena.apache.org/geosparql#> .
 
 [] rdf:type fuseki:Server ;
    # Example::
@@ -36,7 +36,8 @@
   fuseki:endpoint [ fuseki:operation fuseki:gsp-r ; ];
   fuseki:endpoint [ fuseki:operation fuseki:gsp-r ; fuseki:name "get" ];
 
-  fuseki:dataset <#ds> .
+  fuseki:dataset <#ds> ;
+  .
 
 <#ds> rdf:type geosparql:geosparqlDataset ;
   geosparql:spatialIndexFile "spatial.index";
