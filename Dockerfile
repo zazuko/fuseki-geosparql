@@ -125,7 +125,8 @@ ENV \
   FUSEKI_BASE="${FUSEKI_BASE}" \
   OTEL_TRACES_EXPORTER="none" \
   OTEL_METRICS_EXPORTER="none" \
-  ADMIN_PASSWORD="admin"
+  ADMIN_PASSWORD="admin" \
+  DISABLE_OTEL="false"
 
 # run as "fuseki" (explicit UID so "run as non-root" policies can be enforced)
 USER 1000
