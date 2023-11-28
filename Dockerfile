@@ -1,7 +1,7 @@
 # manage tools versions
 ARG ALPINE_VERSION="3.18.4"
 ARG JENA_VERSION="4.10.0"
-ARG OTEL_VERSION="1.31.0"
+ARG OTEL_VERSION="1.32.0"
 ARG MAVEN_VERSION="3.9.5"
 
 # configure some paths, names and args
