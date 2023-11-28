@@ -1,5 +1,15 @@
 # fuseki-geosparql
 
+## 3.2.0
+
+### Minor Changes
+
+- 9b9510e: OpenTelemetry support can be disabled by configuring the `DISABLE_OTEL` environment variable to `true`.
+
+### Patch Changes
+
+- 5bbdc79: Upgrade OpenTelemetry Instrumentation for Java to 1.32.0
+
 ## 3.1.1
 
 ### Patch Changes
