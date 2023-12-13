@@ -3,6 +3,8 @@ ARG ALPINE_VERSION="3.18.4"
 ARG JENA_VERSION="4.10.0"
 ARG OTEL_VERSION="1.32.0"
 ARG MAVEN_VERSION="3.9.5"
+ARG APACHE_SIS_VERSION="1.4"
+ARG DERBY_VERSION="10.17.1.0"
 
 # configure some paths, names and args
 ARG FUSEKI_HOME="/opt/fuseki"
@@ -98,6 +100,8 @@ ARG JENA_VERSION
 ARG FUSEKI_HOME
 ARG FUSEKI_BASE
 ARG JAVA_MINIMAL
+ARG APACHE_SIS_VERSION
+ARG DERBY_VERSION
 
 COPY --from=deps "${JAVA_MINIMAL}" "${JAVA_MINIMAL}"
 COPY --from=deps "${FUSEKI_HOME}" "${FUSEKI_HOME}"
@@ -116,6 +120,19 @@ COPY config/log4j2.properties config/shiro.ini entrypoint.sh ./
 COPY config/config.ttl "${FUSEKI_BASE}"
 RUN chmod +x entrypoint.sh
 
+# Add Apache SIS
+RUN wget "http://archive.apache.org/dist/sis/${APACHE_SIS_VERSION}/apache-sis-${APACHE_SIS_VERSION}-bin.zip" -O /tmp/apache-sis.zip \
+  && cd /tmp/ \
+  && unzip apache-sis.zip \
+  && mv "/tmp/apache-sis-${APACHE_SIS_VERSION}/" /apache-sis \
+  && chown -R 1000:1000 /apache-sis \
+  && rm -f /tmp/apache-sis.zip
+
+# Add Apache Derby
+RUN cd /apache-sis/lib \
+  && wget "https://repo1.maven.org/maven2/org/apache/derby/derby/${DERBY_VERSION}/derby-${DERBY_VERSION}.jar" \
+  -O "derby-${DERBY_VERSION}.jar"
+
 # default environment variables
 ENV \
   JAVA_HOME="${JAVA_MINIMAL}" \
@@ -126,7 +143,10 @@ ENV \
   OTEL_TRACES_EXPORTER="none" \
   OTEL_METRICS_EXPORTER="none" \
   ADMIN_PASSWORD="admin" \
-  DISABLE_OTEL="false"
+  DISABLE_OTEL="false" \
+  PATH="/apache-sis/bin:${JAVA_HOME}/bin:${PATH}" \
+  SIS_DATA="/apache-sis/data" \
+  SIS_OPTS="--encoding UTF-8"
 
 # run as "fuseki" (explicit UID so "run as non-root" policies can be enforced)
 USER 1000
