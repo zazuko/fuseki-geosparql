@@ -1,5 +1,11 @@
 # fuseki-geosparql
 
+## 3.3.0
+
+### Minor Changes
+
+- a64353f: Include Apache SIS in the Docker image
+
 ## 3.2.0
 
 ### Minor Changes
