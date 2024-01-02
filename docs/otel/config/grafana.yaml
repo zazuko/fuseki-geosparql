@@ -19,11 +19,10 @@ datasources:
     type: elasticsearch
     access: proxy
     url: https://opensearch:9200
-    database: "filebeat-*"
     basicAuth: true
     basicAuthUser: admin
-    basicAuthPassword: admin
     jsonData:
+      index: "filebeat-*"
       esVersion: 70
       tlsSkipVerify: true
       timeField: "@timestamp"
@@ -33,3 +32,31 @@ datasources:
         - datasourceUid: jaeger
           field: "trace.id"
           url: "$${__value.raw}"
+    secureJsonData:
+      basicAuthPassword: admin
+
+  - name: OpenSearch
+    # isDefault: true
+    uid: opensearch
+    type: grafana-opensearch-datasource
+    access: proxy
+    url: https://opensearch:9200
+    database: "filebeat-*"
+    basicAuth: true
+    basicAuthUser: admin
+    jsonData:
+      database: "filebeat-*"
+      flavor: "elasticsearch"
+      logLevelField: "log.level"
+      logMessageField: "message"
+      maxConcurrentShardRequests: 5
+      pplEnabled: true
+      timeField: "@timestamp"
+      tlsSkipVerify: true
+      version: "7.10.2"
+      dataLinks:
+        - datasourceUid: jaeger
+          field: "trace.id"
+          url: "$${__value.raw}"
+    secureJsonData:
+      basicAuthPassword: admin
