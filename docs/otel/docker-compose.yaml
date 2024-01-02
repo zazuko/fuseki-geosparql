@@ -116,7 +116,7 @@ services:
       co.elastic.logs/enabled: "false"
 
   opensearch:
-    image: docker.io/opensearchproject/opensearch:1.2.4
+    image: docker.io/opensearchproject/opensearch:2.11.1
     environment:
       node.name: opensearch
       cluster.name: opensearch
@@ -157,7 +157,7 @@ services:
       -e
       --strict.perms=false
     environment:
-      ELASTICSEARCH_HOST: 'https://opensearch:9200'
+      ELASTICSEARCH_HOST: "https://opensearch:9200"
       KIBANA_HOST: opensearch-dashboards:5601
     volumes:
       - ./config/filebeat.yaml:/usr/share/filebeat/filebeat.yml:ro
@@ -170,7 +170,7 @@ services:
       co.elastic.logs/enabled: "false"
 
   opensearch-dashboards:
-    image: docker.io/opensearchproject/opensearch-dashboards:1.2.0
+    image: docker.io/opensearchproject/opensearch-dashboards:2.11.1
     depends_on:
       opensearch:
         condition: service_healthy
@@ -178,7 +178,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "curl --silent --fail localhost:5601/api/status || exit 1",
+          "curl -u admin:admin --silent --fail localhost:5601/api/status || exit 1",
         ]
       interval: 10s
       timeout: 5s
@@ -207,7 +207,10 @@ services:
       - ./config/grafana.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
     healthcheck:
       test:
-        ["CMD-SHELL", "wget -nv -t1 --spider localhost:3000/api/health || exit 1"]
+        [
+          "CMD-SHELL",
+          "wget -nv -t1 --spider localhost:3000/api/health || exit 1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
