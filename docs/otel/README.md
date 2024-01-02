@@ -2,7 +2,7 @@
 
 This Docker image is configured to include the OpenTelemetry Java agent.
 
-We provide a `docker-compose` stack to let you test it.
+We provide a Docker Compose stack to let you test it.
 
 ## Presentation of the stack
 
@@ -24,7 +24,7 @@ The stack includes the following services:
 Run the following command:
 
 ```sh
-docker-compose up
+docker compose up
 ```
 
 ## Sample federated query
@@ -64,5 +64,5 @@ Check the logs [in Grafana](http://localhost:3000):
 Run the following command to remvove the stack:
 
 ```sh
-docker-compose down
+docker compose down
 ```
