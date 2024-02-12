@@ -17,7 +17,7 @@ It is listening on the 3030 port, so you should be able to access the web interf
 It is possible to use the following environment variables for configuration:
 
 - `ADMIN_PASSWORD` (default: `admin`), the password for the admin user
-- `JAVA_OPTIONS` (default: `-Xmx2048m -Xms2048m`), allocate more resources by changing this values
+- `JAVA_OPTS` (default: `-Xmx2048m -Xms2048m`), allocate more resources by changing this values
 - `DISABLE_OTEL` (default: `false`), disable OpenTelemetry support by setting this value to `true`
 
 Feel free to edit the `config/config.ttl` file before building this image.

@@ -136,7 +136,7 @@ RUN cd /apache-sis/lib \
 # default environment variables
 ENV \
   JAVA_HOME="${JAVA_MINIMAL}" \
-  JAVA_OPTIONS="-Xmx2048m -Xms2048m" \
+  JAVA_OPTS="-Xmx2048m -Xms2048m" \
   JENA_VERSION="${JENA_VERSION}" \
   FUSEKI_HOME="${FUSEKI_HOME}" \
   FUSEKI_BASE="${FUSEKI_BASE}" \
