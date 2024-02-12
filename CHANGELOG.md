@@ -1,5 +1,13 @@
 # fuseki-geosparql
 
+## 3.3.1
+
+### Patch Changes
+
+- 56cff42: Upgrade OTEL to 1.32.1
+- ea1e00f: Rename default environment variable `JAVA_OPTIONS` to `JAVA_OPTS`
+- 321e2dd: Upgrade Alpine to 3.19.1
+
 ## 3.3.0
 
 ### Minor Changes
