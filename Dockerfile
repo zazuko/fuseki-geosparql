@@ -74,7 +74,7 @@ ARG JAVA_MINIMAL
 ARG JDEPS_EXTRA
 
 WORKDIR "${FUSEKI_HOME}"
-RUN apk add --no-cache openjdk16
+RUN apk add --no-cache openjdk21
 
 COPY --from=builder "${FUSEKI_HOME}" "${FUSEKI_HOME}"
 COPY --from=builder /tmp/jdeps /tmp/jdeps
