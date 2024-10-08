@@ -55,6 +55,7 @@ GROUP BY ?p ?givenName ?familyName ?additionalName
 Check the logs [in Grafana](http://localhost:3000):
 
 - navigate to the [Explore view](http://localhost:3000/explore)
+- select "OpenSearch" as the data source
 - in the query builder at the top, under "Metric" select "Logs" instead of "Count"
 - unroll a log entry with a trace (basically anything else than the startup logs)
 - click on "Jaeger" to view the associated trace
