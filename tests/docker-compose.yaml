@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   fuseki-default:
     image: ghcr.io/zazuko/fuseki-geosparql
