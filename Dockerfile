@@ -68,7 +68,7 @@ RUN jdeps \
 #############################################################
 # Generate all depedencies depending on the target platform #
 #############################################################
-FROM --platform=${TARGETPLATFORM} "docker.io/library/alpine:${ALPINE_VERSION}" as deps
+FROM --platform=${TARGETPLATFORM} "docker.io/library/alpine:${ALPINE_VERSION}" AS deps
 ARG FUSEKI_HOME
 ARG JAVA_MINIMAL
 ARG JDEPS_EXTRA
