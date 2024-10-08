@@ -60,7 +60,7 @@ services:
       driver: json-file
 
   jaeger:
-    image: docker.io/jaegertracing/all-in-one:1.52.0
+    image: docker.io/jaegertracing/all-in-one:1.62.0
     networks:
       - monitoring
     healthcheck:
@@ -75,7 +75,7 @@ services:
       co.elastic.logs/enabled: "false"
 
   collector:
-    image: docker.io/otel/opentelemetry-collector-contrib:0.91.0
+    image: docker.io/otel/opentelemetry-collector-contrib:0.111.0
     command: >-
       --config=/collector.yaml
     networks:
@@ -90,7 +90,7 @@ services:
       co.elastic.logs/enabled: "false"
 
   prometheus:
-    image: docker.io/prom/prometheus:v2.48.1
+    image: docker.io/prom/prometheus:v2.54.1
     command: >-
       --config.file=/prometheus.yaml
       --web.enable-lifecycle
@@ -115,7 +115,7 @@ services:
       co.elastic.logs/enabled: "false"
 
   opensearch:
-    image: docker.io/opensearchproject/opensearch:2.11.1
+    image: docker.io/opensearchproject/opensearch:2.17.1
     environment:
       node.name: opensearch
       cluster.name: opensearch
@@ -169,7 +169,7 @@ services:
       co.elastic.logs/enabled: "false"
 
   opensearch-dashboards:
-    image: docker.io/opensearchproject/opensearch-dashboards:2.11.1
+    image: docker.io/opensearchproject/opensearch-dashboards:2.17.1
     depends_on:
       opensearch:
         condition: service_healthy
@@ -193,7 +193,7 @@ services:
       OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
 
   grafana:
-    image: docker.io/grafana/grafana:10.0.10
+    image: docker.io/grafana/grafana:11.2.2
     ports:
       - 3000:3000
     environment:
