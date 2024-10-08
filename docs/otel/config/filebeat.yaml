@@ -9,7 +9,7 @@ processors:
 output.elasticsearch:
   hosts: ["${ELASTICSEARCH_HOST}"]
   username: admin
-  password: admin
+  password: SecretPassw0rd!
   ssl:
     verification_mode: none
 

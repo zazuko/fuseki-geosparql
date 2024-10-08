@@ -16,7 +16,7 @@ The stack includes the following services:
 - Prometheus, configured to scrape some exposed metrics: http://localhost:9090/
 - a Filebeat module that parses Fuseki's logs
 - an OpenSearch-Filebeat-OpenSearch Dashboard setup that ingests logs from the whole stack.
-  OpenSearch Dashboard is running on http://localhost:5601/ (credentials: `admin` / `admin`)
+  OpenSearch Dashboard is running on http://localhost:5601/ (credentials: `admin` / `SecretPassw0rd!`)
 - a Grafana instance, to visualize logs and traces: http://localhost:3000/
 
 ## Running

@@ -123,6 +123,7 @@ services:
       discovery.type: single-node
       compatibility.override_main_response_version: "true"
       ES_JAVA_OPTS: -Xms2G -Xmx2G
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: "SecretPassw0rd!"
     ulimits:
       memlock:
         soft: -1
@@ -131,7 +132,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "curl --silent --fail https://localhost:9200/_cluster/health --insecure -u admin:admin || exit 1",
+          "curl --silent --fail https://localhost:9200/_cluster/health --insecure -u admin:SecretPassw0rd! || exit 1",
         ]
       interval: 10s
       timeout: 5s
@@ -177,7 +178,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "curl -u admin:admin --silent --fail localhost:5601/api/status || exit 1",
+          "curl -u admin:SecretPassw0rd! --silent --fail localhost:5601/api/status || exit 1",
         ]
       interval: 10s
       timeout: 5s

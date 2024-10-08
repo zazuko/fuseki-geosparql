@@ -13,30 +13,8 @@ datasources:
     access: proxy
     url: http://jaeger:16686
 
-  - name: ElasticSearch
-    isDefault: true
-    uid: elasticsearch
-    type: elasticsearch
-    access: proxy
-    url: https://opensearch:9200
-    basicAuth: true
-    basicAuthUser: admin
-    jsonData:
-      index: "filebeat-*"
-      esVersion: 70
-      tlsSkipVerify: true
-      timeField: "@timestamp"
-      logMessageField: message
-      logLevelField: log.level
-      dataLinks:
-        - datasourceUid: jaeger
-          field: "trace.id"
-          url: "$${__value.raw}"
-    secureJsonData:
-      basicAuthPassword: admin
-
   - name: OpenSearch
-    # isDefault: true
+    isDefault: true
     uid: opensearch
     type: grafana-opensearch-datasource
     access: proxy
@@ -59,4 +37,4 @@ datasources:
           field: "trace.id"
           url: "$${__value.raw}"
     secureJsonData:
-      basicAuthPassword: admin
+      basicAuthPassword: SecretPassw0rd!
