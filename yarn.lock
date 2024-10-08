@@ -47,7 +47,7 @@
   dependencies:
     "@changesets/types" "^6.0.0"
 
-"@changesets/cli@^2.27.8":
+"@changesets/cli@^2.27.9":
   version "2.27.9"
   resolved "https://registry.yarnpkg.com/@changesets/cli/-/cli-2.27.9.tgz#7b58a4c9eaf95d81fe0d1386705ecefe94a20062"
   integrity sha512-q42a/ZbDnxPpCb5Wkm6tMVIxgeI9C/bexntzTeCFBrQEdpisQqk8kCHllYZMDjYtEc1ZzumbMJAG8H0Z4rdvjg==
