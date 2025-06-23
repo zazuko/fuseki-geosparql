@@ -11,6 +11,6 @@
     "release": "changeset tag"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.4"
+    "@changesets/cli": "^2.29.5"
   }
 }
