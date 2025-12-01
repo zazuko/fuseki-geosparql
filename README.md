@@ -52,6 +52,7 @@ When the container is starting, the value for `ADMIN_PASSWORD` will be set, and 
 ## Dataset
 
 A dataset `ds` is already configured in the `config/config.ttl` file.
+This file is mounted at `/fuseki/configuration/config.ttl` in the container.
 It's a read-only dataset, with union graph and GeoSPARQL enabled.
 Feel free to update this file for your needs.
 

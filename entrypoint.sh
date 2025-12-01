@@ -14,11 +14,11 @@ if [ "$DISABLE_OTEL" = "true" ]; then
   JAVA_AGENT=""
 fi
 
-exec \
-  "${JAVA_HOME}/bin/java" \
+java \
   ${JAVA_OPTS} \
   ${JAVA_AGENT} \
   -Xshare:off \
   -Dlog4j.configurationFile="${FUSEKI_HOME}/log4j2.properties" \
-  -cp "${FUSEKI_HOME}/fuseki-server.jar" \
-  org.apache.jena.fuseki.cmd.FusekiCmd
+  -Dderby.system.home=/opt/derby \
+  -cp "${FUSEKI_HOME}"'/*' \
+  org.apache.jena.fuseki.main.cmds.FusekiServerCmd

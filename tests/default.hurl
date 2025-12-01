@@ -1,16 +1,16 @@
-# check the ping endpoint: Fuseki is alive
+# Check the ping endpoint: Fuseki is alive
 GET http://127.0.0.1:3030/$/ping
 HTTP 200
 
-# metrics should be exported
+# Metrics should be exported
 GET http://127.0.0.1:3030/$/metrics
 HTTP 200
 
-# precise stats are not reachable for unauthenticated users
+# Precise stats are not reachable for unauthenticated users
 GET http://127.0.0.1:3030/$/stats
 HTTP 401
 
-# admin user should have access to the stats
+# Admin user should have access to the stats
 GET http://127.0.0.1:3030/$/stats
 [BasicAuth]
 admin: secret

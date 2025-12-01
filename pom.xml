@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.zazuko.apps</groupId>
+  <artifactId>fuseki-geosparql</artifactId>
+  <version>1</version>
+
+  <properties>
+    <jena.version>5.6.0</jena.version>
+    <derby.version>10.17.1.0</derby.version>
+    <sis.version>1.4</sis.version>
+  </properties>
+
+  <dependencies>
+    <!-- Apache Jena -->
+    <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-core</artifactId>
+      <version>${jena.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>apache-jena-fuseki</artifactId>
+      <version>${jena.version}</version>
+      <type>pom</type>
+    </dependency>
+
+    <!-- Enable GeoSPARQL for Apache Jena Fuseki -->
+    <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-geosparql</artifactId>
+      <version>${jena.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-fuseki-geosparql</artifactId>
+      <version>${jena.version}</version>
+    </dependency>
+
+    <!-- Apache Derby -->
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>${derby.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derbytools</artifactId>
+      <version>${derby.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Apache SIS -->
+    <dependency>
+      <groupId>org.apache.sis.core</groupId>
+      <artifactId>sis-referencing</artifactId>
+      <version>${sis.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sis.non-free</groupId>
+      <artifactId>sis-embedded-data</artifactId>
+      <version>${sis.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sis.non-free</groupId>
+      <artifactId>sis-epsg</artifactId>
+      <version>${sis.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+</project>
