@@ -23,11 +23,6 @@
       <version>${jena.version}</version>
       <type>pom</type>
     </dependency>
-    <!-- <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
-      <version>${jena.version}</version>
-    </dependency> -->
 
     <!-- Enable GeoSPARQL for Apache Jena Fuseki -->
     <dependency>
