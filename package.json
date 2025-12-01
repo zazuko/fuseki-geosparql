@@ -1,7 +1,7 @@
 {
   "name": "fuseki-geosparql",
   "version": "4.0.0",
-  "description": "Non-offcial Fuseki Docker image with GeoSPARQL support",
+  "description": "Non-official Fuseki Docker image with GeoSPARQL support",
   "main": "index.js",
   "repository": "git@github.com:zazuko/fuseki-geosparql.git",
   "author": "Zazuko GmbH",
