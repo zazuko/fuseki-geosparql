@@ -243,4 +243,4 @@ But it seems that the Fuseki HTTP Administration Protocol does not currently sup
 
 So currently the only way to create datasets with GeoSPARQL support would be to edit the `config.ttl` file, and restart the Fuseki instance.
 
-Since it's running in a Docker container, you can easilly mount a custom `config.ttl` file at `/fuseki/config.ttl`.
+Since it's running in a Docker container, you can easilly mount a custom `config.ttl` file at `/fuseki/configuration/config.ttl`.

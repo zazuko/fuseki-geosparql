@@ -8,6 +8,7 @@ services:
       - 3030:3030
     environment:
       - ADMIN_PASSWORD=secret
+      - DISABLE_OTEL=true
 
   fuseki-geosparql:
     image: ghcr.io/zazuko/fuseki-geosparql
@@ -18,6 +19,7 @@ services:
       - 3031:3030
     environment:
       - ADMIN_PASSWORD=secret
+      - DISABLE_OTEL=true
     volumes:
       - ./geosparql/data.nt:/data/data.nt:ro
-      - ./geosparql/config.ttl:/fuseki/config.ttl:ro
+      - ./geosparql/config.ttl:/fuseki/configuration/config.ttl:ro
