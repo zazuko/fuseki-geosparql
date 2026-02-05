@@ -1,5 +1,17 @@
 # fuseki-geosparql
 
+## 5.0.0
+
+### Major Changes
+
+- 77926e9: Upgrade Apache Jena to v6.0.0
+
+### Patch Changes
+
+- 9b957c2: Bump OpenTelemetry Java instrumentation to 2.24.0
+- 9b957c2: Bump alpine base image to 3.23.3
+- 9b957c2: Bump Maven version used for build time to 3.9.12
+
 ## 4.0.0
 
 ### Major Changes
