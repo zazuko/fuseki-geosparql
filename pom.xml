@@ -5,7 +5,7 @@
   <version>1</version>
 
   <properties>
-    <jena.version>5.6.0</jena.version>
+    <jena.version>6.0.0</jena.version>
     <derby.version>10.17.1.0</derby.version>
     <sis.version>1.4</sis.version>
   </properties>
