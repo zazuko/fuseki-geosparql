@@ -27,7 +27,7 @@ For information, this file will be mounted at the following path in the containe
 
 Here are some default routes, publicly available:
 
-- `/$/status`: get Fuseki's status
+- `/$/stats`: get request statistics for all datasets
 - `/$/server`: get Fuseki's status
 - `/$/ping`: health check endpoint
 - `/$/metrics`: some Prometheus metrics
