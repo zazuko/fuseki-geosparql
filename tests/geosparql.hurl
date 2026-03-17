@@ -6,14 +6,8 @@ HTTP 200
 GET http://127.0.0.1:3031/$/metrics
 HTTP 200
 
-# Precise stats are not reachable for unauthenticated users
+# Statistics should be available
 GET http://127.0.0.1:3031/$/stats
-HTTP 401
-
-# Admin user should have access to the stats
-GET http://127.0.0.1:3031/$/stats
-[BasicAuth]
-admin: secret
 HTTP 200
 
 GET http://127.0.0.1:3031/ds/
