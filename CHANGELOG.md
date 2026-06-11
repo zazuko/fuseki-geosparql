@@ -1,5 +1,15 @@
 # fuseki-geosparql
 
+## 5.1.0
+
+### Minor Changes
+
+- 0f995b6: Improve permissions for the container image.
+
+### Patch Changes
+
+- d8bdd28: Upgrade Apache Jena to 6.1.0
+
 ## 5.0.1
 
 ### Patch Changes
