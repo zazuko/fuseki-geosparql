@@ -66,7 +66,8 @@ COPY --from=builder /build/*.jar "${FUSEKI_HOME}/"
 RUN adduser -H -D -u 1000 fuseki fuseki
 
 RUN mkdir -p "${FUSEKI_BASE}/databases" "${FUSEKI_BASE}/configuration" /opt/derby \
-  && chown -R fuseki:fuseki "${FUSEKI_HOME}" "${FUSEKI_BASE}" "${FUSEKI_BASE}/configuration" /opt/derby
+  && chown -R fuseki:fuseki "${FUSEKI_HOME}" "${FUSEKI_BASE}" "${FUSEKI_BASE}/configuration" /opt/derby \
+  && chmod -R a+w "${FUSEKI_BASE}" /opt/derby
 
 WORKDIR "${FUSEKI_HOME}"
 COPY config/log4j2.properties config/shiro.ini entrypoint.sh ./
