@@ -3,8 +3,8 @@
 ARG ALPINE_VERSION="3.24.1"
 ARG MAVEN_VERSION="3.9.16"
 ## Apache projects
-ARG JENA_VERSION="6.1.0"
-ARG SIS_VERSION="1.4"
+ARG JENA_VERSION="6.2.0"
+ARG SIS_VERSION="1.6"
 ARG DERBY_VERSION="10.17.1.0"
 ## Other components
 ARG OTEL_VERSION="2.30.0"
@@ -54,7 +54,6 @@ RUN apk add --no-cache \
 
 ARG FUSEKI_HOME
 ARG FUSEKI_BASE
-ARG SIS_VERSION
 
 # Copy required files from builder stage
 COPY --from=builder /build/*.jar "${FUSEKI_HOME}/"
@@ -82,9 +81,7 @@ ENV \
   OTEL_TRACES_EXPORTER="none" \
   OTEL_METRICS_EXPORTER="none" \
   ADMIN_PASSWORD="admin" \
-  DISABLE_OTEL="false" \
-  SIS_DATA="/apache-sis/data" \
-  SIS_OPTS="--encoding UTF-8"
+  DISABLE_OTEL="false"
 
 # Run as "fuseki" (explicit UID so "run as non-root" policies can be enforced)
 USER 1000
