@@ -1,5 +1,13 @@
 # fuseki-geosparql
 
+## 5.1.1
+
+### Patch Changes
+
+- c7b8ba6: Bump alpine base image to 3.24.1
+- c7b8ba6: Bump Maven version used for build time to 3.9.16
+- c7b8ba6: Bump OpenTelemetry Java instrumentation to 2.30.0
+
 ## 5.1.0
 
 ### Minor Changes
