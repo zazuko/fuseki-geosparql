@@ -29,16 +29,13 @@ jobs:
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
-
-      - uses: actions/setup-node@v7
+      # Installs pnpm (version from the "packageManager" field), Node.js, and
+      # runs "pnpm install" in a single step
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@v2
         with:
-          node-version: "lts/*"
-          cache: "pnpm"
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+          runtime: node@lts
+          cache: true
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
