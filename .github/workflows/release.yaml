@@ -19,7 +19,7 @@ jobs:
         uses: actions/create-github-app-token@v3
         id: app-token
         with:
-          app-id: ${{ secrets.GH_APP_ID }}
+          client-id: ${{ secrets.GH_CLIENT_ID }}
           private-key: ${{ secrets.GH_PRIVATE_KEY }}
 
       - name: Checkout Repo
@@ -29,20 +29,24 @@ jobs:
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
       - uses: actions/setup-node@v7
         with:
           node-version: "lts/*"
+          cache: "pnpm"
 
       - name: Install Dependencies
-        run: yarn
+        run: pnpm install --frozen-lockfile
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: yarn release
-          commit: "chore: release"
-          title: "Merge to release"
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          # Required so that the pushed tags trigger the other workflows
+          github-token: ${{ steps.app-token.outputs.token }}
+          # This expects you to have a script called release which does a build for your packages and calls changeset git-tag
+          publish-script: pnpm run release
+          commit-message: "chore: release"
+          pr-title: "Merge to release"

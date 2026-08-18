@@ -1,13 +1,13 @@
 # Manage tools versions
 ## Base components
-ARG ALPINE_VERSION="3.23.3"
-ARG MAVEN_VERSION="3.9.12"
+ARG ALPINE_VERSION="3.24.1"
+ARG MAVEN_VERSION="3.9.16"
 ## Apache projects
 ARG JENA_VERSION="6.1.0"
 ARG SIS_VERSION="1.4"
 ARG DERBY_VERSION="10.17.1.0"
 ## Other components
-ARG OTEL_VERSION="2.24.0"
+ARG OTEL_VERSION="2.30.0"
 
 # Configure some paths, names and args
 ARG FUSEKI_HOME="/opt/fuseki"
