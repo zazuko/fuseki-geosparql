@@ -1,5 +1,39 @@
 # fuseki-geosparql
 
+## 5.2.0
+
+### Minor Changes
+
+- 41b354a: Upgrade Apache Jena to 6.2.0
+  
+  #### Behaviour change: `geof:distance`
+  
+  Apache Jena 6.2.0 changed `geof:distance` to compute a geodesic distance, instead
+  of a Euclidean distance expressed in the units of the SRS.
+  
+  For geometries in a geographic SRS, such as `CRS84` or `EPSG:4326`:
+  
+  - Linear units now return a proper distance, where the result was previously left
+    unbound. `geof:distance(?a, ?b, uom:metre)` works from now on.
+  - Angular units (`uom:degree`, `uom:radian`) now leave the result unbound, as a
+    geodesic distance cannot be expressed in them. Queries relying on those need to
+    ask for a linear unit instead.
+  
+  Geometries in a projected SRS, such as `EPSG:2056`, are not affected.
+
+### Patch Changes
+
+- 267b3f4: Remove the stale `SIS_DATA` and `SIS_OPTS` environment variables
+  
+  They pointed at `/apache-sis`, a directory that is no longer created since the
+  Apache SIS binary distribution got replaced by the Maven artifacts. Apache SIS
+  reads its EPSG dataset from the `sis-embedded-data` and `sis-epsg` jars on the
+  classpath, so this changes nothing in practice.
+  
+  In case you were mounting your own Apache SIS data at `/apache-sis/data`, you now
+  have to set `SIS_DATA` yourself.
+- 41b354a: Bump Apache SIS to 1.6, matching the version Apache Jena 6.2.0 is built against
+
 ## 5.1.1
 
 ### Patch Changes
