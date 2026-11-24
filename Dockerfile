@@ -1,6 +1,7 @@
 # Manage tools versions
 ## Base components
 ARG ALPINE_VERSION="3.24.1"
+ARG JAVA_VERSION="25"
 ARG MAVEN_VERSION="3.9.16"
 ## Apache projects
 ARG JENA_VERSION="6.3.0"
@@ -18,7 +19,7 @@ ARG OTEL_JAR="opentelemetry-javaagent.jar"
 #################################
 # Fuseki with GeoSPARQL support #
 #################################
-FROM --platform=${BUILDPLATFORM} "docker.io/library/maven:${MAVEN_VERSION}-eclipse-temurin-21" AS builder
+FROM --platform=${BUILDPLATFORM} "docker.io/library/maven:${MAVEN_VERSION}-eclipse-temurin-${JAVA_VERSION}" AS builder
 
 ARG JENA_VERSION
 ARG DERBY_VERSION
@@ -36,19 +37,21 @@ RUN sed -i \
   -e "s|<sis.version>.*</sis.version>|<sis.version>${SIS_VERSION}</sis.version>|" \
   pom.xml
 RUN mvn dependency:copy-dependencies -DoutputDirectory=.
-RUN wget \
+RUN curl -fsSL \
   "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_VERSION}/${OTEL_JAR}" \
-  -O otel.jar
+  -o otel.jar
 
 ############################
 # Build final Docker image #
 ############################
 FROM "docker.io/library/alpine:${ALPINE_VERSION}"
 
+ARG JAVA_VERSION
+
 # Install some required dependencies
 RUN apk add --no-cache \
   ca-certificates \
-  openjdk21-jre \
+  "openjdk${JAVA_VERSION}-jre" \
   gettext \
   tini
 
