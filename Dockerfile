@@ -8,7 +8,7 @@ ARG JENA_VERSION="6.3.0"
 ARG SIS_VERSION="1.6"
 ARG DERBY_VERSION="10.17.1.0"
 ## Other components
-ARG OTEL_VERSION="2.30.0"
+ARG OTEL_VERSION="2.34.0"
 
 # Configure some paths, names and args
 ARG FUSEKI_HOME="/opt/fuseki"
