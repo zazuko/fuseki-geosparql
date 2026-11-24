@@ -110,108 +110,14 @@ It's basically the same request that is triggered using the web UI.
 
 ### Using an assembly file
 
-You may want to create it using an assembly file, like this:
+Older Apache Jena releases allowed creating a dataset by sending an assembler file (Turtle) to `$/datasets`.
+This feature was disabled by default in Apache Jena 5.5.0, and has been removed in Apache Jena 6.3.0.
 
-```sh
-# create a .ttl file with some configuration
-cat << 'EOF' > /tmp/dataset.ttl
-@prefix :        <#> .
-@prefix fuseki:  <http://jena.apache.org/fuseki#> .
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ja:      <http://jena.hpl.hp.com/2005/11/Assembler#> .
-@prefix tdb2:      <http://jena.apache.org/2016/tdb#>
-@prefix geosparql: <http://jena.apache.org/geosparql#>
+Such a request is now rejected with a `400 Bad Request` status and the following message:
 
-<#geoService> rdf:type fuseki:Service;
-  fuseki:name "geo";
+> Service configuration from an upload file not supported
 
-  fuseki:endpoint [ fuseki:operation fuseki:query ; ];
-  fuseki:endpoint [ fuseki:operation fuseki:query ; fuseki:name "sparql" ];
-  fuseki:endpoint [ fuseki:operation fuseki:query ; fuseki:name "query" ];
-  fuseki:endpoint [ fuseki:operation fuseki:gsp-r ; ];
-  fuseki:endpoint [ fuseki:operation fuseki:gsp-r ; fuseki:name "get" ];
-
-  fuseki:dataset <#geo> .
-
-<#geo> rdf:type geosparql:geosparqlDataset ;
-  geosparql:spatialIndexFile "databases/geo/spatial.index";
-
-  # some GeoSPARQL settings
-  geosparql:inference            true ;
-  geosparql:queryRewrite         true ;
-  geosparql:indexEnabled         true ;
-  geosparql:applyDefaultGeometry false ;
-
-  # 3 item lists: [Geometry Literal, Geometry Transform, Query Rewrite]
-  geosparql:indexSizes           "-1,-1,-1" ;       # Default - unlimited.
-  geosparql:indexExpires         "5000,5000,5000" ; # Default - time in milliseconds.
-
-  geosparql:dataset <#geoDataset> ;
-  .
-
-<#geoDataset> rdf:type tdb2:DatasetTDB2 ;
-  tdb2:location "databases/geo" ;
-  tdb2:unionDefaultGraph true ;
-  .
-EOF
-
-# do the request to create the dataset
-curl -u admin:admin 'http://localhost:3030/$/datasets' \
-  -X POST \
-  -H "Accept: text/turtle" \
-  -H "Content-Type: text/turtle" \
-  --data @/tmp/dataset.ttl
-
-# remove the temporary file we created
-rm /tmp/dataset.ttl
-```
-
-But you will get the following error:
-
-> Required base dataset missing: http://localhost:3030/$/datasets#geo
-
-This is due because the Fuseki HTTP Administration Protocol does not support GeoSPARQL features in the current version.
-
-But for non-GeoSPARQL datasets, it is working as expected:
-
-```sh
-# create a .ttl file with some configuration
-cat << 'EOF' > /tmp/dataset.ttl
-@prefix :        <#> .
-@prefix fuseki:  <http://jena.apache.org/fuseki#> .
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ja:      <http://jena.hpl.hp.com/2005/11/Assembler#> .
-@prefix tdb2:      <http://jena.apache.org/2016/tdb#>
-
-<#classicalService> rdf:type fuseki:Service;
-  fuseki:name "classical";
-
-  fuseki:endpoint [ fuseki:operation fuseki:query ; ];
-  fuseki:endpoint [ fuseki:operation fuseki:query ; fuseki:name "sparql" ];
-  fuseki:endpoint [ fuseki:operation fuseki:query ; fuseki:name "query" ];
-  fuseki:endpoint [ fuseki:operation fuseki:gsp-r ; ];
-  fuseki:endpoint [ fuseki:operation fuseki:gsp-r ; fuseki:name "get" ];
-
-  fuseki:dataset <#classicalDataset> .
-
-<#classicalDataset> rdf:type tdb2:DatasetTDB2 ;
-  tdb2:location "databases/classical" ;
-  tdb2:unionDefaultGraph true ;
-  .
-EOF
-
-# do the request to create the dataset
-curl -u admin:admin 'http://localhost:3030/$/datasets' \
-  -X POST \
-  -H "Accept: text/turtle" \
-  -H "Content-Type: text/turtle" \
-  --data @/tmp/dataset.ttl
-
-# remove the temporary file we created
-rm /tmp/dataset.ttl
-```
+This applies to all datasets, with or without GeoSPARQL support.
 
 ## Delete a dataset
 
@@ -239,7 +145,7 @@ curl -u admin:admin -X POST 'http://localhost:3030/$/datasets/ds?state=active'
 ## Conclusions
 
 GeoSPARQL support is something new on Fuseki, and the support for the GeoSPARQL assembler for the initial configuration (our `config.ttl` file) only came in the 4.4.0 release of Apache Jena.
-But it seems that the Fuseki HTTP Administration Protocol does not currently support it, we should wait until it gets fully supported in the Apache Jena project.
+The Fuseki HTTP Administration Protocol does not support creating GeoSPARQL datasets, and the assembler file upload it previously offered has been removed in Apache Jena 6.3.0.
 
 So currently the only way to create datasets with GeoSPARQL support would be to edit the `config.ttl` file, and restart the Fuseki instance.
 
