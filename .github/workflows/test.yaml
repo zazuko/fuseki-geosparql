@@ -17,7 +17,18 @@ jobs:
         uses: docker/setup-buildx-action@v4
 
       - name: Install hurl
-        uses: gacts/install-hurl@v1
+        env:
+          HURL_VERSION: "8.1.0"
+        run: |
+          set -eu
+          archive="hurl-${HURL_VERSION}-x86_64-unknown-linux-gnu"
+          base_url="https://github.com/Orange-OpenSource/hurl/releases/download/${HURL_VERSION}"
+          cd "${RUNNER_TEMP}"
+          curl -fsSL --retry 3 -O "${base_url}/${archive}.tar.gz" -O "${base_url}/${archive}.tar.gz.sha256"
+          echo "$(cat "${archive}.tar.gz.sha256")  ${archive}.tar.gz" | sha256sum -c -
+          tar -xzf "${archive}.tar.gz"
+          echo "${RUNNER_TEMP}/${archive}/bin" >> "${GITHUB_PATH}"
+          "${RUNNER_TEMP}/${archive}/bin/hurl" --version
 
       - name: Run tests
         run: cd tests && ./run.sh && cd -
