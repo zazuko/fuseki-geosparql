@@ -1,5 +1,28 @@
 # fuseki-geosparql
 
+## 5.3.0
+
+### Minor Changes
+
+- 5b10895: Upgrade Apache Jena to 6.3.0
+  
+  #### Removed: dataset creation from an uploaded assembler file
+  
+  Apache Jena 6.3.0 removed the possibility to create a dataset by sending an
+  assembler file (Turtle) to the `$/datasets` endpoint of the Fuseki HTTP
+  Administration Protocol. This feature was already disabled by default since
+  Apache Jena 5.5.0. Such requests are now rejected with a `400 Bad Request`.
+  
+  Datasets can still be created using `dbName` and `dbType` form parameters, or
+  by configuring them in the `config.ttl` file.
+- 3ae6b6a: Run Fuseki on Java 25 (OpenJDK 25), instead of Java 21
+- 5b10895: Bump Apache Jena to 6.3.0
+
+### Patch Changes
+
+- 9e10390: Bump alpine base image to 3.24.4
+- e8184f8: Bump OpenTelemetry Java instrumentation to 2.34.0
+
 ## 5.2.0
 
 ### Minor Changes
