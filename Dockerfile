@@ -1,6 +1,6 @@
 # Manage tools versions
 ## Base components
-ARG ALPINE_VERSION="3.24.1"
+ARG ALPINE_VERSION="3.24.4"
 ARG JAVA_VERSION="25"
 ARG MAVEN_VERSION="3.10.0"
 ## Apache projects
